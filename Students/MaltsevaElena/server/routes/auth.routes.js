@@ -32,11 +32,11 @@ router.post('/register',
          const hashedPassword = await bcrypt.hash(password, 12)
          const user = new User({ userName, email, password: hashedPassword })
          await user.save()
-
+         user.password = undefined
          res.status(201).json({ user })
 
       } catch (e) {
-         res.status(500).json({ message: 'Something get wrong, try again' })
+         res.status(500).json({ message: 'Something get wrong, try again', err: e })
       }
    }
 )
@@ -62,10 +62,10 @@ router.post('/login', async (req, res) => {
             { expiresIn: '1h' }
          )
          
-         res.json({ token, _id: user._id })
+         res.json({ userId: user._id, userName, token })
 
       } catch (e) {
-         res.status(500).json({ message: 'Something get wrong, try again' })
+         res.status(500).json({ message: 'Something get wrong, try again', err: e })
       }
    }
 )

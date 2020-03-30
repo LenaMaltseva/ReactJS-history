@@ -1,19 +1,10 @@
 import { createStore, compose, applyMiddleware } from 'redux'
 import { createBrowserHistory } from 'history'
 import { routerMiddleware } from 'connected-react-router'
-import { persistStore, persistReducer } from 'redux-persist'
-import storage from 'redux-persist/lib/storage'
-import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2'
+import { persistStore } from 'redux-persist'
 
 import middlewares from '../middlewares/index.js'
-import initReducers from './reducers'
-
-const persistConfig = {
-   key: 'reactgram',
-   storage,
-   stateReconciler: autoMergeLevel2,
-   whitelist: ['chatReducer', 'userReducer']
-}
+import persistReducer from './reducers'
 
 export const history = createBrowserHistory()
 
@@ -21,7 +12,7 @@ function initStore() {
    let initialStore = {}
 
    const store = createStore(
-      persistReducer(persistConfig, initReducers(history)), 
+      persistReducer(history), 
       initialStore,
       compose(
          applyMiddleware(routerMiddleware(history), ...middlewares),

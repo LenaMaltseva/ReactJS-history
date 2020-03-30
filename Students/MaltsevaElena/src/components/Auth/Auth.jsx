@@ -54,6 +54,8 @@ class Auth extends Component {
       userName: '',
       email: '',
       password: '',
+      emailError: '',
+      passwordError: '',
       openSnackbar: false,
    }
 
@@ -73,47 +75,67 @@ class Auth extends Component {
    }
 
    handleClear = () => {
-      if (this.state.userName || this.state.email || this.state.password) {
-         this.setState({ userName: '', email: '', password: ''})
-      }
+      this.setState({ 
+         userName: '', 
+         email: '', 
+         password: '',
+         emailError: '',
+         passwordError: '',
+      })
+   }
+
+   validateEmail = () => {
+      const emailPattern = new RegExp(/^([a-z0-9_\.-]+)@([a-z0-9_\.-]+)\.([a-z\.]{2,6})$/, 'i')
+
+      if (this.state.email && !emailPattern.test(this.state.email)) {
+         this.setState({ emailError: 'invalid email address' })
+      } else this.setState({ emailError: '' })
+   }
+
+   validatePassword = () => {
+      if (this.state.password && this.state.password.length < 6) {
+         this.setState({ passwordError: 'length is less than 6 characters' })
+      } else this.setState({ passwordError: '' })
+   }
+
+   isValidate = () => {
+      const { userName, email, emailError, password, passwordError } = this.state
+      return (userName && email && password) ? (!emailError && !passwordError) : false
    }
 
    handleRegister = () => {
       const { userName, email, password } = this.state
-      const { registerNewUser, hasRegistered } = this.props
-
-      if (userName && email && password) {
-         registerNewUser(userName, email.toLowerCase(), password)
-         this.setState({ openSnackbar: true })
-         hasRegistered ? this.setState({ tabValue: 0 }) : ''
-      }
+      this.props.registerNewUser(userName, email.toLowerCase(), password)
    }
 
    handleLogin = () => {
       const { userName, password } = this.state
+      this.props.loginUser(userName, password)
+   }
 
-      if (userName && password) {
-         this.props.loginUser(userName, password)
-         this.props.authMessage ? this.setState({ openSnackbar: true }) : ''
+   componentDidUpdate (prevProps) {
+      if (this.props.authMessage !== prevProps.authMessage) {
+         this.setState({ openSnackbar: true })
+      }
+
+      if (this.props.registerErrors && this.props.registerErrors !== prevProps.registerErrors) {
+         this.props.registerErrors.forEach(err => {
+            if (err.param === 'email') {
+               this.setState({ emailError: err.msg })
+            } else if (err.param === 'password') {
+               this.setState({ passwordError: err.msg }) 
+            }
+         })
+      }
+
+      if (this.props.hasRegistered !== prevProps.hasRegistered) {
+         this.setState({ tabValue: 0, emailError: '', passwordError: '' })
       }
    }
 
    render () {
-      const { hasRegistered, registerErrors, authMessage, classes } = this.props
-      const { tabValue, openSnackbar } = this.state
-
-      let emailError, passwordError
-      if (!registerErrors) {
-         emailError = passwordError = ''
-      } else {
-         registerErrors.forEach(err => {
-            if (err.param === 'email') {
-               emailError = err.msg
-            } else if (err.param === 'password') {
-               passwordError = err.msg
-            }
-         })
-      }
+      const { hasRegistered, authMessage, classes } = this.props
+      const { tabValue, userName, email, password, emailError, passwordError, openSnackbar } = this.state
 
       return (
          <div className="container container_position__center">
@@ -136,32 +158,31 @@ class Auth extends Component {
                      label="User name" 
                      name="userName" 
                      type="text"
-                     value={ this.state.userName }
+                     value={ userName }
                      onChange={ this.handleChangeInput }
                   />
                   { Boolean(tabValue) && 
                      <TextField fullWidth required margin="normal" color="secondary"
-                        label="Email address" 
-                        name="email" 
-                        type="email"
+                        label="Email address" name="email" type="email"
                         error={ Boolean(emailError) }
                         helperText={ emailError ? emailError : "example@mail.com"}
-                        value={ this.state.email }
+                        value={ email }
                         onChange={ this.handleChangeInput }
+                        onBlur={ this.validateEmail }
                      />
                   }
                   <TextField fullWidth margin="normal" color="secondary"
                      required={ Boolean(tabValue) ? true : false }
-                     label="Password" 
-                     name="password" 
-                     type="password" 
+                     label="Password" name="password" type="password" 
                      error={ Boolean(passwordError) }
                      helperText={ Boolean(tabValue) ? (passwordError ? passwordError : "minimum 6 characters") : "" }
-                     value={ this.state.password }
+                     value={ password }
                      onChange={ this.handleChangeInput }
+                     onBlur={ this.validatePassword }
                   />
                   <Button className={ classes.submitBtn }
-                     onClick={ tabValue ? this.handleRegister : this.handleLogin } 
+                     onClick={ tabValue ? this.handleRegister : this.handleLogin }
+                     disabled={ tabValue ? (this.isValidate() ? false : true) : false }
                   >
                      Submit
                   </Button>
@@ -177,7 +198,7 @@ class Auth extends Component {
             autoHideDuration={ 6000 } 
             onClose={ this.handleClose }>
                <Alert onClose={ this.handleClose } severity={ hasRegistered ? "success" : "error" } variant="outlined">
-                  { hasRegistered ? "Registration has completed successfully" : authMessage } 
+               { hasRegistered ? "Registration has completed successfully" : authMessage } 
                </Alert>
             </Snackbar>
 

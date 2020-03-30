@@ -34,6 +34,7 @@ export default function userReducer (store = initinalStore, action) {
          const {_id, userName, chats } = action.payload
          return update(store, {
             hasRegistered: { $set: true },
+            authMessage: { $set: '' },
             contacts: {
                $merge: { [_id]: { userName, chats } }
             }, 
@@ -51,9 +52,10 @@ export default function userReducer (store = initinalStore, action) {
       }
 
       case SUCCESS_LOGIN: {
-         const { token, _id } = action.payload
+         const { userId, userName, token } = action.payload
          return update(store, {
-            currentUser: { $set: { _id, token } }
+            authMessage: { $set: '' },
+            currentUser: { $set: { userId, userName, token } },
          })
       }
       case ERROR_LOGIN: {
