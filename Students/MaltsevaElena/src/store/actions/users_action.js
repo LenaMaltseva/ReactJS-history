@@ -66,3 +66,9 @@ export let loginUser = (userName, password) => ({
       ]
    }
 })
+
+export let LOGOUT = '@@user/LOGOUT'
+
+export let logoutUser = () => ({
+   type: LOGOUT,
+})

@@ -62,7 +62,7 @@ router.post('/login', async (req, res) => {
             { expiresIn: '1h' }
          )
          
-         res.json({ userId: user._id, userName, token })
+         res.json({ userId: user._id, userName, email: user.email, token })
 
       } catch (e) {
          res.status(500).json({ message: 'Something get wrong, try again', err: e })

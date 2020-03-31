@@ -4,7 +4,8 @@ import { SUCCESS_USERS_LOADING,
          SUCCESS_REGISTER,
          ERROR_REGISTER,
          SUCCESS_LOGIN,
-         ERROR_LOGIN } from '../actions/users_action.js'
+         ERROR_LOGIN,
+         LOGOUT } from '../actions/users_action.js'
 
 const initinalStore = {
    contacts: {},
@@ -52,15 +53,20 @@ export default function userReducer (store = initinalStore, action) {
       }
 
       case SUCCESS_LOGIN: {
-         const { userId, userName, token } = action.payload
+         const { userId, userName, email, token } = action.payload
          return update(store, {
             authMessage: { $set: '' },
-            currentUser: { $set: { userId, userName, token } },
+            currentUser: { $set: { userId, userName, email, token } },
          })
       }
       case ERROR_LOGIN: {
          return update(store, {
             authMessage: { $set: action.payload.message },
+         })
+      }
+      case LOGOUT: {
+         return update(store, {
+            currentUser: { $set: {} },
          })
       }
       default:
