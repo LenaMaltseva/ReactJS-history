@@ -6,7 +6,7 @@ export let ERROR_USERS_LOADING = '@@user/ERROR_USERS_LOADING'
 
 export let loadUsers = () => ({
    [RSAA]: {
-      endpoint: '/api/users',
+      endpoint: '/api/user',
       method: 'GET',
       types: [
          START_USERS_LOADING,

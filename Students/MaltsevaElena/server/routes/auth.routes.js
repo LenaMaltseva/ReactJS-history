@@ -1,10 +1,12 @@
-const { Router } = require('express')
+const express = require('express')
+const router = express.Router()
+
 const bcrypt = require('bcryptjs')
 const config = require('config')
 const jwt = require('jsonwebtoken')
 const { check, validationResult } = require('express-validator')
+
 const User = require('../models/User.js')
-const router = Router()
 
 // /auth/register
 router.post('/register',

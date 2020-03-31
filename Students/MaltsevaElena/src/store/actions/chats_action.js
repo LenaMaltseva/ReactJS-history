@@ -6,7 +6,7 @@ export let ERROR_CHATS_LOADING = '@@chat/ERROR_CHATS_LOADING'
 
 export let loadChats = () => ({
    [RSAA]: {
-      endpoint: '/api/chats',
+      endpoint: '/api/chat',
       method: 'GET',
       types: [
          START_CHATS_LOADING,

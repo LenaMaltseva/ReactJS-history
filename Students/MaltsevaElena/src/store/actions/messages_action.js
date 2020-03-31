@@ -6,7 +6,7 @@ export let ERROR_MESSAGES_LOADING = '@@messages/ERROR_MESSAGES_LOADING'
 
 export let loadMessages = () => ({
    [RSAA]: {
-      endpoint: '/api/messages',
+      endpoint: '/api/message',
       method: 'GET',
       types: [
          START_MESSAGES_LOADING,
