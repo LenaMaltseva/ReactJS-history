@@ -2,10 +2,11 @@ const express = require('express')
 const router = express.Router()
 
 const Chat = require('../models/Chat.js')
+const Message = require('../models/Message.js')
 
 // /chat
 router.get('/', async(req, res) => {
-   const chats = await Chat.find()
+   const chats = await Chat.find({participants: req.user.userId})
    res.json(chats)
 })
 
