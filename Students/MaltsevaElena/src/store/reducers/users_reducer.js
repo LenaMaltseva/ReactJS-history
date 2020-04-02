@@ -54,6 +54,7 @@ export default function userReducer (store = initinalStore, action) {
 
       case SUCCESS_LOGIN: {
          const { user, token } = action.payload
+         localStorage.setItem('token', token)
          return update(store, {
             authMessage: { $set: '' },
             currentUser: { $set: { ...user } },
@@ -65,6 +66,7 @@ export default function userReducer (store = initinalStore, action) {
          })
       }
       case LOGOUT: {
+         localStorage.removeItem('token')
          return update(store, {
             currentUser: { $set: {} },
          })

@@ -8,7 +8,7 @@ import Auth from '../components/Auth/Auth.jsx'
 
 class Router extends Component {
    render() {
-      if (this.props.currentUser.token) {
+      if (this.props.currentUser._id) {
          return (
             <Switch>
                <Route exact path="/" component={ Layout } />

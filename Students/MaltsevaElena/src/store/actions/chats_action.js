@@ -8,6 +8,10 @@ export let loadChats = () => ({
    [RSAA]: {
       endpoint: '/api/chat',
       method: 'GET',
+      headers: {
+         'Content-Type': 'application/json',
+         'Authorization': `Bearer ${localStorage.getItem('token')}`
+      },
       types: [
          START_CHATS_LOADING,
          {
@@ -27,6 +31,10 @@ export let addChat = (title, userId, contactId='5e7dd46dc765d9e2edaedc74') => ({
    [RSAA]: {
       endpoint: '/api/chat',
       method: 'POST',
+      headers: {
+         'Content-Type': 'application/json',
+         'Authorization': `Bearer ${localStorage.getItem('token')}`
+      },
       body: JSON.stringify({title, participants:[userId, contactId]}),
       types: [
          START_CHAT_CREATING,
@@ -47,7 +55,10 @@ export let deleteChat = (chatId) => ({
    [RSAA]: {
       endpoint: '/api/chat',
       method: 'DELETE',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+         'Content-Type': 'application/json',
+         'Authorization': `Bearer ${localStorage.getItem('token')}`
+      },
       body: JSON.stringify({chatId}),
       types: [
          START_CHAT_DELETING,

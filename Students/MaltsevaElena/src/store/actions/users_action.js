@@ -8,6 +8,10 @@ export let loadUsers = () => ({
    [RSAA]: {
       endpoint: '/api/user',
       method: 'GET',
+      headers: {
+         'Content-Type': 'application/json',
+         'Authorization': `Bearer ${localStorage.getItem('token')}`
+      },
       types: [
          START_USERS_LOADING,
          {
