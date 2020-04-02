@@ -40,9 +40,16 @@ let msg = (props) => {
 
    let boxView = (sender === currentUser._id ? classes.currentUserMsg : classes.responderMsg)
 
-   let msgDate = created.split('T', 9)[0].split('-').reverse().join('.')
-   let msgTime = created.split('T', 9)[1].split('.')[0].split(':', 2).join(':')
-
+   let createdToDate = new Date(Date.parse(created))
+   let msgDateTime = createdToDate.toLocaleString('ru', {
+      timeZone: 'Europe/Moscow',
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: 'numeric',
+      minute: 'numeric',
+   })
+   
    return (
       <Grid container wrap="nowrap" className={ classes.root }>
          <Box className={`${classes.bubble} ${boxView} `}>
@@ -50,7 +57,7 @@ let msg = (props) => {
                <Typography variant="body1"> { text } </Typography>
             </Grid>
             <Grid item className={ classes.dateTime }>
-               <Typography variant="caption"> { `${msgDate}, ${msgTime}` } </Typography>
+               <Typography variant="caption"> { msgDateTime } </Typography>
             </Grid>
          </Box>
       </Grid>
