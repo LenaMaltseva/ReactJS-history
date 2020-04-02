@@ -18,6 +18,7 @@ const useStyles = (theme => ({
       flexDirection: 'column',
       justifyContent: 'center',
       alignItems: 'center',
+      textAlign: 'center',
       color: theme.palette.text.secondary,
    },
    msgBlock: {
@@ -111,7 +112,7 @@ class Messages extends Component {
             {/* Shown while chat isn't selected */}
             { !chatId && <Box className={ classes.emptyBlock }>
                <ForumRounded fontSize="large"/>
-               Select a chat to start conversation
+               Select a chat or create new one<br/>to start conversation
             </Box> }
 
             {/* Shown when chat is selected */}
@@ -139,10 +140,10 @@ class Messages extends Component {
                   <IconButton aria-label="send" onClick={ () => this.handleSendMsg(currentUser._id, this.state.msg) }>
                      <Send />
                   </IconButton>
-                  <IconButton aria-label="smile">
+                  <IconButton disabled aria-label="smile">
                      <SentimentVerySatisfiedRounded />
                   </IconButton>
-                  <IconButton aria-label="attachment" >
+                  <IconButton disabled aria-label="attachment" >
                      <AttachmentRounded />
                   </IconButton>
                </Box>

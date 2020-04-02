@@ -1,5 +1,4 @@
 import React from 'react'
-import ReactDom from 'react-dom'
 
 // Styles, UI
 import { Box, Grid, Typography } from '@material-ui/core'
@@ -11,13 +10,25 @@ const useStyles = makeStyles(theme => ({
       flexDirection: 'column',
       color: theme.palette.text.primary,
    },
-   myAnswer: {
+   bubble: {
+      minWidth: '20%',
+      maxWidth: '55%',
+      borderRadius: theme.spacing(0.5),
+      boxShadow: 1,
+      margin: theme.spacing(1),
+      padding: theme.spacing(1),
+   },
+   currentUserMsg: {
       alignSelf: 'flex-end',
       backgroundColor: theme.palette.primary.main,
    },
-   botAnswer: {
+   responderMsg: {
       alignSelf: 'flex-start',
       backgroundColor: theme.palette.primary.light,
+   },
+   dateTime: {
+      color: theme.palette.text.secondary,
+      textAlign: 'right',
    }
  }))
 
@@ -25,19 +36,21 @@ let msg = (props) => {
 
    const classes = useStyles()
 
-   let { sender, text, botName} = props
-   sender = (sender === 'bot' ? botName : sender)
+   let { sender, text, created, currentUser } = props
 
-   let boxView = (sender === 'Me' ? classes.myAnswer : classes.botAnswer)
+   let boxView = (sender === currentUser._id ? classes.currentUserMsg : classes.responderMsg)
+
+   let msgDate = created.split('T', 9)[0].split('-').reverse().join('.')
+   let msgTime = created.split('T', 9)[1].split('.')[0].split(':', 2).join(':')
 
    return (
       <Grid container wrap="nowrap" className={ classes.root }>
-         <Box className={ boxView } m={1} p={1} width="55%" borderRadius="4px" boxShadow={1}>
-            <Grid item >
-               <Typography variant="caption"> { sender } </Typography>
-            </Grid>
+         <Box className={`${classes.bubble} ${boxView} `}>
             <Grid item >
                <Typography variant="body1"> { text } </Typography>
+            </Grid>
+            <Grid item className={ classes.dateTime }>
+               <Typography variant="caption"> { `${msgDate}, ${msgTime}` } </Typography>
             </Grid>
          </Box>
       </Grid>
