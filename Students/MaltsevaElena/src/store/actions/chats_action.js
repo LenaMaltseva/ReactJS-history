@@ -23,12 +23,11 @@ export let START_CHAT_CREATING = '@@chat/START_CHAT_CREATING'
 export let SUCCESS_CHAT_CREATING = '@@chat/SUCCESS_CHAT_CREATING'
 export let ERROR_CHAT_CREATING = '@@chat/ERROR_CHAT_CREATING'
 
-export let addChat = (title) => ({
+export let addChat = (title, userId, contactId='5e7dd46dc765d9e2edaedc74') => ({
    [RSAA]: {
       endpoint: '/api/chat',
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({title}),
+      body: JSON.stringify({title, participants:[userId, contactId]}),
       types: [
          START_CHAT_CREATING,
          {

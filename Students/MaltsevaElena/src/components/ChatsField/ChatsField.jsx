@@ -1,5 +1,4 @@
-import React, {Component} from 'react'
-import ReactDom from 'react-dom'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
 // Styles, UI
@@ -51,6 +50,7 @@ import Navigation from '../ChatsNavigation/ChatsNavigation.jsx'
 
 class ChatList extends Component {
    static propTypes = {
+      currentUser: PropTypes.object.isRequired,
       chatId: PropTypes.string,
       chatRooms: PropTypes.object.isRequired,
       isLoading: PropTypes.bool.isRequired,
@@ -82,7 +82,7 @@ class ChatList extends Component {
 
    handleAddChat = () => {
       if ( this.state.inputChatTitle !== '') {
-         this.props.addChat(this.state.inputChatTitle)
+         this.props.addChat(this.state.inputChatTitle, this.props.currentUser.userId)
          this.setState({ inputChatTitle: '' })
          this.handleClickOpenClose()
       }
@@ -93,7 +93,7 @@ class ChatList extends Component {
    }
 
    render() {
-      const { chatId, chatRooms, deleteChat, classes } = this.props
+      const { currentUser, chatId, chatRooms, deleteChat, classes } = this.props
 
       let ChatRoomsArr = []
       Object.keys(chatRooms).forEach(chatRoomId => {
@@ -172,7 +172,7 @@ class ChatList extends Component {
             </List> }
 
             {/* Footer: tabbar (bottom menu) */}
-            <Navigation />
+            <Navigation currentUser={ currentUser } />
 
          </Box>
       )

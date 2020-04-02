@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 // Store
 import { bindActionCreators } from 'redux'
 import connect from 'react-redux/es/connect/connect'
-import { loadMessages, sendMessage } from '../../store/actions/messages_action.js'
+import { sendMessage } from '../../store/actions/messages_action.js'
 import { loadChats, addChat, deleteChat } from '../../store/actions/chats_action.js'
 import { push } from 'connected-react-router'
 
@@ -15,8 +15,8 @@ import ChatList from '../ChatsField/ChatsField.jsx'
 
 class Layout extends Component {
    static propTypes = {
+      currentUser: PropTypes.object.isRequired,
       loadChats: PropTypes.func.isRequired,
-      loadMessages: PropTypes.func.isRequired,
       isLoading: PropTypes.bool.isRequired,
       chatId: PropTypes.string,
       chatRooms: PropTypes.object.isRequired,
@@ -28,17 +28,17 @@ class Layout extends Component {
 
    componentDidMount () {
       this.props.loadChats()
-      this.props.loadMessages()
    }
 
    render () {
-      let { isLoading, chatId, chatRooms, addChat, deleteChat, sendMessage, push } = this.props
+      let { currentUser, isLoading, chatId, chatRooms, addChat, deleteChat, sendMessage, push } = this.props
 
       return (
          <div className="container">
             <Grid container spacing={0}>
                <Grid item xs={3}>
                   <ChatList 
+                     currentUser={ currentUser }
                      chatId={ chatId } 
                      chatRooms={ chatRooms } 
                      isLoading={ isLoading } 
@@ -48,6 +48,7 @@ class Layout extends Component {
                </Grid>
                <Grid item xs={9}>
                   <Messages 
+                     currentUser={ currentUser }
                      chatId={ chatId } 
                      chatData={ chatId ? chatRooms[chatId] : {} }
                      sendMessage={ sendMessage } />
@@ -58,12 +59,13 @@ class Layout extends Component {
    }
 }
 
-const mapStateToProps = ({ chatReducer }) => ({
+const mapStateToProps = ({ chatReducer, userReducer }) => ({
+   currentUser: userReducer.currentUser,
    isLoading: chatReducer.isLoading,
    chatRooms: chatReducer.chatRooms,
 })
 const mapDespatchToProps = dispatch => bindActionCreators( { 
-   loadChats, loadMessages, addChat, deleteChat, sendMessage, push 
+   loadChats, addChat, deleteChat, sendMessage, push 
 }, dispatch)
 
 export default connect(mapStateToProps, mapDespatchToProps)(Layout)

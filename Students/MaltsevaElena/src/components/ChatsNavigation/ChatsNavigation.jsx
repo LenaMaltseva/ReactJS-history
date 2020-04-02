@@ -46,7 +46,7 @@ const StyledMenuItem = withStyles(theme => ({
 
 class Navigation extends Component {
   static propTypes = {
-    account: PropTypes.object.isRequired,
+    currentUser: PropTypes.object.isRequired,
     logoutUser: PropTypes.func,
     classes: PropTypes.object,
   }
@@ -69,7 +69,7 @@ class Navigation extends Component {
   }
 
   render () {
-    const { account, logoutUser, classes } = this.props
+    const { currentUser, logoutUser, classes } = this.props
     const { anchorEl } = this.state
 
     return (
@@ -120,10 +120,10 @@ class Navigation extends Component {
         <DialogTitle>Account info</DialogTitle>
         <DialogContent>
           <Box m={ 1 }>
-            Name: { account.userName }
+            Name: { currentUser.userName }
           </Box>
           <Box m={ 1 }>
-            Email: { account.email }
+            Email: { currentUser.email }
           </Box>
         </DialogContent>
         <DialogActions>
@@ -138,9 +138,9 @@ class Navigation extends Component {
     )
   }
 }
-const mapStateToProps = ({ userReducer }) => ({
-  account: userReducer.currentUser,
-})
+// const mapStateToProps = ({ userReducer }) => ({
+//   currentUser: userReducer.currentUser,
+// })
 const mapDispatchToProps = dispatch => bindActionCreators({ logoutUser }, dispatch)
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(useStyles)(Navigation))
+export default connect(null, mapDispatchToProps)(withStyles(useStyles)(Navigation))

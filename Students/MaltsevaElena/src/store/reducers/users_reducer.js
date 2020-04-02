@@ -22,8 +22,8 @@ export default function userReducer (store = initinalStore, action) {
       case SUCCESS_USERS_LOADING: {
          const contacts = {}
          action.payload.forEach(user => {
-            const { _id, userName, chats } = user
-            contacts[_id] = { userName, chats }
+            const { _id, userName, email } = user
+            contacts[_id] = { userName, email }
          })
          return update(store, {
             contacts: { $set: contacts }
@@ -32,12 +32,12 @@ export default function userReducer (store = initinalStore, action) {
 
       // Auth cases
       case SUCCESS_REGISTER: {
-         const {_id, userName, chats } = action.payload
+         const {_id, userName, email } = action.payload
          return update(store, {
             hasRegistered: { $set: true },
             authMessage: { $set: '' },
             contacts: {
-               $merge: { [_id]: { userName, chats } }
+               $merge: { [_id]: { userName, email } }
             }, 
          })
       }
@@ -53,10 +53,10 @@ export default function userReducer (store = initinalStore, action) {
       }
 
       case SUCCESS_LOGIN: {
-         const { userId, userName, email, token } = action.payload
+         const { user, token } = action.payload
          return update(store, {
             authMessage: { $set: '' },
-            currentUser: { $set: { userId, userName, email, token } },
+            currentUser: { $set: { ...user } },
          })
       }
       case ERROR_LOGIN: {

@@ -105,7 +105,7 @@ class Auth extends Component {
 
    handleRegister = () => {
       const { userName, email, password } = this.state
-      this.props.registerNewUser(userName, email.toLowerCase(), password)
+      this.props.registerNewUser(userName, email, password)
    }
 
    handleLogin = () => {

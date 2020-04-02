@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import ReactDom from 'react-dom'
 import PropTypes from 'prop-types'
 
 // Styles, UI
@@ -46,6 +45,7 @@ import Message from '../Message/Message.jsx'
 
 class Messages extends Component {
    static propTypes = {
+      currentUser: PropTypes.object.isRequired,
       chatId: PropTypes.string,
       chatData: PropTypes.object,
       sendMessage: PropTypes.func.isRequired,
@@ -53,7 +53,6 @@ class Messages extends Component {
    }
    
    state = {
-      usr: 'Me', 
       msg: '',
    }
 
@@ -65,21 +64,21 @@ class Messages extends Component {
       }
    }
 
-   sendMsg = ( text, sender ) => {
+   sendMsg = (sender, text) => {
       let { chatId, sendMessage } = this.props
       sendMessage(sender, text, chatId)
    }
 
-   handleSendMsg = (text, sender) => {
+   handleSendMsg = (sender, text) => {
       this.setState({ msg: ''})
-      if (text.length > 0) this.sendMsg(text, sender)
+      if (text.length > 0) this.sendMsg(sender, text)
    }
 
    handleChange = (event) => {
       if (event.keyCode !== 13) {
          this.setState({ msg: event.target.value })
       } else {
-         this.sendMsg(this.state.msg, this.state.usr)
+         this.sendMsg(this.props.currentUser._id, this.state.msg)
          this.setState({ msg: ''})
       }
    }
@@ -89,7 +88,7 @@ class Messages extends Component {
    }
 
    render() {
-      let { chatId, chatData, classes } = this.props
+      const { currentUser, chatId, chatData, classes } = this.props
       
       let MessagesArr = []
       if (chatId && chatData) {
@@ -99,8 +98,9 @@ class Messages extends Component {
                <Message 
                   sender={ chatMessages[message].sender } 
                   text={ chatMessages[message].text } 
+                  created={ chatMessages[message].created }
                   key={ chatMessages[message]._id }
-                  botName={ chatData.title }
+                  currentUser={ currentUser }
                /> 
             )
          })
@@ -136,7 +136,7 @@ class Messages extends Component {
                         onKeyUp={ this.handleChange }
                         value={ this.state.msg } />
                   </Box>
-                  <IconButton aria-label="send" onClick={ () => this.handleSendMsg(this.state.msg, this.state.usr ) }>
+                  <IconButton aria-label="send" onClick={ () => this.handleSendMsg(currentUser._id, this.state.msg) }>
                      <Send />
                   </IconButton>
                   <IconButton aria-label="smile">

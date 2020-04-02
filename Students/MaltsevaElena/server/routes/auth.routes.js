@@ -63,8 +63,8 @@ router.post('/login', async (req, res) => {
             config.get('jwtSecret'),
             { expiresIn: '1h' }
          )
-         
-         res.json({ userId: user._id, userName, email: user.email, token })
+         user.password = undefined
+         res.json({ user, token })
 
       } catch (e) {
          res.status(500).json({ message: 'Something get wrong, try again', err: e })

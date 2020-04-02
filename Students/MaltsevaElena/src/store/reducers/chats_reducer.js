@@ -1,10 +1,10 @@
 import update from 'react-addons-update'
 
-import { SUCCESS_MESSAGES_LOADING,
-         SUCCESS_MESSAGE_SENDING } from '../actions/messages_action.js'
+import { SUCCESS_MESSAGE_SENDING } from '../actions/messages_action.js'
 import { SUCCESS_CHATS_LOADING, 
          SUCCESS_CHAT_CREATING, 
          SUCCESS_CHAT_DELETING } from '../actions/chats_action.js'
+import { LOGOUT } from '../actions/users_action.js'
 
 const initialStore = {
    chatRooms: {},
@@ -18,17 +18,8 @@ export default function chatReducer (store = initialStore, action) {
       case SUCCESS_CHATS_LOADING: {
          const chatRooms = {}
          action.payload.forEach(chat => {
-            const { _id, title, messageList } = chat
-            chatRooms[_id] = { title, messageList }
-         })
-         return update(store, {
-            chatRooms: { $set: chatRooms },
-         })
-      }
-      case SUCCESS_MESSAGES_LOADING: {
-         const chatRooms = {...store.chatRooms}
-         action.payload.forEach(msg => {
-            chatRooms[msg.chatId].messageList.push(msg)
+            const { _id, title, messageList, participants } = chat
+            chatRooms[_id] = { title, messageList, participants }
          })
          return update(store, {
             chatRooms: { $set: chatRooms },
@@ -38,10 +29,10 @@ export default function chatReducer (store = initialStore, action) {
 
       // Change data cases
       case SUCCESS_CHAT_CREATING: {
-         const { _id, title, messageList } = action.payload
+         const { _id, title, messageList, participants } = action.payload
          return update(store, {
             chatRooms: {
-               $merge: { [_id]: { title, messageList } }
+               $merge: { [_id]: { title, messageList, participants } }
             }
          })
       }
@@ -59,6 +50,12 @@ export default function chatReducer (store = initialStore, action) {
                $merge: { [chatId]: { title: store.chatRooms[chatId].title, 
                   messageList: [...store.chatRooms[chatId].messageList, action.payload] } }
             }
+         })
+      }
+      case LOGOUT: {
+         return update(store, {
+            chatRooms: { $set: {} },
+            isLoading: { $set: true }
          })
       }
       default:
