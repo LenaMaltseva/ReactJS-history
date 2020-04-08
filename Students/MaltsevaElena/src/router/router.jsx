@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
-import { Switch, Route, Redirect } from 'react-router-dom'
 import PropTypes from 'prop-types'
+
+// Routing
+import { Switch, Route, Redirect } from 'react-router-dom'
 
 // Store
 import connect from 'react-redux/es/connect/connect'
@@ -18,10 +20,11 @@ class Router extends Component {
       if (this.props.currentUser._id) {
          return (
             <Switch>
-               <Route exact path="/" component={ App } />
-               <Route path="/chat/:chatId" 
+               <Route exact path="/chats" component={ App } />
+               <Route path="/chats/:chatId" 
                      render={ obj => <App chatId={ obj.match.params.chatId } /> } />
-               <Redirect to="/" />
+               <Route exact path="/contacts" component={ App } />
+               <Redirect to="/chats" />
             </Switch>
          )
       }

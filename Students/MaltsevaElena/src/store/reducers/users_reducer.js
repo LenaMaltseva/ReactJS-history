@@ -4,6 +4,7 @@ import { SUCCESS_USERS_LOADING } from '../actions/users_action.js'
 
 const initinalStore = {
    contacts: {},
+   isLoading: true,
 }
 
 export default function userReducer (store = initinalStore, action) {
@@ -17,7 +18,8 @@ export default function userReducer (store = initinalStore, action) {
             contacts[_id] = { userName, email }
          })
          return update(store, {
-            contacts: { $set: contacts }
+            contacts: { $set: contacts },
+            isLoading: { $set: false }
          })
       }
 
