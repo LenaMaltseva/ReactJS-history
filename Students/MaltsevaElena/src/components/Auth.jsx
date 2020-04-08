@@ -7,7 +7,7 @@ import connect from 'react-redux/es/connect/connect'
 import { registerNewUser, loginUser } from '../store/actions/auth_action.js'
 
 // Components
-import Alert from './Alert.jsx'
+import Alert from './PopupAlert.jsx'
 
 // Styles, UI
 import { Paper, 

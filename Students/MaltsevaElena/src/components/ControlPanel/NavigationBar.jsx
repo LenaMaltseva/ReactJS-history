@@ -11,7 +11,7 @@ import connect from 'react-redux/es/connect/connect'
 import { logoutUser } from '../../store/actions/auth_action.js'
 
 // Components
-import Dialog from './PopupDialog.jsx'
+import Dialog from '../PopupDialog.jsx'
 
 // Styles, UI
 import { AppBar, 
