@@ -15,10 +15,10 @@ export default class App extends Component {
       return (
          <div className="container">
             <Grid container spacing={0}>
-               <Grid item xs={3}>
+               <Grid item xs={4}>
                   <ControlPanel chatId={ this.props.chatId }/>
                </Grid>
-               <Grid item xs={9}>
+               <Grid item xs={8}>
                   <MessagesField chatId={ this.props.chatId }/>
                </Grid>
             </Grid>
