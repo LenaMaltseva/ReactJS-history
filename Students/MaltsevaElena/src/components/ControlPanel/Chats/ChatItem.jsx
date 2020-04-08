@@ -1,5 +1,12 @@
 import React from 'react'
-import ReactDom from 'react-dom'
+
+// Routing
+import { push } from 'connected-react-router'
+
+// Store
+import { bindActionCreators } from 'redux'
+import connect from 'react-redux/es/connect/connect'
+import { deleteChat } from '../../../store/actions/chats_action.js'
 
 // Styles, UI
 import { Box, 
@@ -31,24 +38,8 @@ const useStyles = makeStyles(theme => ({
       color: theme.palette.primary.main
    }
 }))
-
-const StyledMenu = withStyles({})(props => (
-   <Menu
-     elevation={5}
-     getContentAnchorEl={null}
-     anchorOrigin={{
-       vertical: 'center',
-       horizontal: 'right',
-     }}
-     transformOrigin={{
-       vertical: 'center',
-       horizontal: 'right',
-     }}
-     {...props}
-   />
- ))
  
- const StyledMenuItem = withStyles(theme => ({
+const StyledMenuItem = withStyles(theme => ({
    root: {
       '&:hover': {
          background: 'none',
@@ -58,55 +49,54 @@ const StyledMenu = withStyles({})(props => (
          }
       }
    },
- }))(MenuItem)
+}))(MenuItem)
 
-let chat = (props) => {
-
+let ChatItem = props => {
    const classes = useStyles()
-   const { handleNavigate, chatRoomId, title, lastMessage, isSelected, deleteChat } = props
+   const { chatRoomId, title, lastMessage, isSelected, deleteChat, push } = props
 
    const [ anchorEl, setAnchorEl ] = React.useState(null)
 
-   const handleClick = event => {
-      setAnchorEl(event.currentTarget)
-   }
+   const handleClick = event => setAnchorEl(event.currentTarget)
 
-   const handleClose = () => {
-      setAnchorEl(null)
-   }
+   const handleClose = () => setAnchorEl(null)
 
    return (
       <Box className={ classes.root }>
          <ListItem divider={ true } 
             selected={ isSelected ? true : false } 
-            onClick={ () => handleNavigate(`/chat/${chatRoomId}`) } >
+            onClick={ () => push(`/chats/${chatRoomId}`) } >
             <ListItemAvatar>
-               <Avatar className={ classes.avatar }> { title[0].toUpperCase() } </Avatar>
+               <Avatar className={ classes.avatar } children={ title[0].toUpperCase() }/>
             </ListItemAvatar>
             <ListItemText primary={ title } secondary={ lastMessage } />
 
             {/* Chat's actions */}
             { isSelected && 
-               <IconButton onClick={ handleClick } aria-label="display more actions" aria-haspopup="true" edge="end">
-                  <MoreIcon />
-               </IconButton>
+               <IconButton aria-label="display more actions" edge="end"
+                  onClick={ handleClick }
+                  children={ <MoreIcon /> }
+               />
             }
-            <StyledMenu
+
+            <Menu elevation={ 5 } getContentAnchorEl={ null }
+               anchorOrigin={{ vertical: 'center', horizontal: 'right' }}
+               transformOrigin={{ vertical: 'center', horizontal: 'right' }}
                anchorEl={ anchorEl }
-               open={ Boolean(anchorEl) }
-               onClose={ handleClose } >
-               
+               open={ !!anchorEl }
+               onClose={ handleClose } 
+            >   
                <StyledMenuItem onClick={ () => deleteChat(chatRoomId) }>
-                  <ListItemIcon>
-                     <DeleteIcon fontSize="small" />
-                  </ListItemIcon>
+                  <ListItemIcon children={ <DeleteIcon /> }/>
                   <ListItemText primary="Delete" />
                </StyledMenuItem>
-            </StyledMenu>
+            </Menu>
 
          </ListItem>
       </Box>
    )
 }
 
-export default chat
+const mapDespatchToProps = dispatch => bindActionCreators({ deleteChat, push }, dispatch)
+
+export default connect(null, mapDespatchToProps)(ChatItem)

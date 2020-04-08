@@ -1,54 +1,71 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-// Store
-import { bindActionCreators } from 'redux'
-import connect from 'react-redux/es/connect/connect'
-import { loadChats, addChat, deleteChat } from '../../store/actions/chats_action.js'
-import { push } from 'connected-react-router'
+// Routing
+import { Switch, Route } from 'react-router-dom'
 
 // Components
-import ChatList from '../ChatsField/ChatsField.jsx'
+import SearchBar from './SearchBar.jsx'
+import ChatsField from './Chats/ChatsField.jsx'
+import ContactsField from './Contacts/ContactsField.jsx'
+import NavigationBar from './NavigationBar.jsx'
+
+// Styles, UI
+import { Box, List } from '@material-ui/core'
+import { withStyles } from '@material-ui/core/styles'
+
+const useStyles = (theme => ({
+   root: {
+      borderRight: '4px solid rgba(0, 0, 0, .1)',
+   },
+   listSpace: {
+      height: 'calc(100vh - 145px)',
+      padding: theme.spacing(1, 0),
+      backgroundColor: theme.palette.background.paper,
+      color: theme.palette.common.white
+   },
+}))
 
 class Layout extends Component {
    static propTypes = {
-      currentUser: PropTypes.object.isRequired,
-      loadChats: PropTypes.func.isRequired,
-      isLoading: PropTypes.bool.isRequired,
       chatId: PropTypes.string,
-      chatRooms: PropTypes.object.isRequired,
-      addChat:PropTypes.func.isRequired,
-      deleteChat: PropTypes.func.isRequired,
-      push: PropTypes.func.isRequired,
    }
 
-   componentDidMount () {
-      this.props.loadChats()
+   state = {
+      inputSearch: ''
    }
 
-   render () {
-      let { currentUser, isLoading, chatId, chatRooms, addChat, deleteChat, push } = this.props
+   handleChange = event => {
+      this.setState({ [event.target.name]: event.target.value })
+   }
+
+   render() {
+      const { chatId, classes } = this.props
 
       return (
-         <ChatList 
-            currentUser={ currentUser }
-            chatId={ chatId } 
-            chatRooms={ chatRooms } 
-            isLoading={ isLoading } 
-            addChat={ addChat }
-            deleteChat={ deleteChat } 
-            push={ push } />
+         <Box className={ classes.root }>
+
+            <SearchBar
+               handleChange={ this.handleChange }
+               inputValue={ this.state.inputSearch }
+            />
+
+            <List className={ classes.listSpace }>
+               <Switch>
+                  <Route path="/chats" render={ () => 
+                     <ChatsField chatId={ chatId } searchRequest={ this.state.inputSearch }/> 
+                  }/>
+                  <Route exact path="/contacts" render={ () =>
+                     <ContactsField searchRequest={ this.state.inputSearch }/>
+                  }/>
+               </Switch>
+            </List>
+
+            <NavigationBar/>
+
+         </Box>
       )
    }
 }
 
-const mapStateToProps = ({ chatReducer, authReducer }) => ({
-   currentUser: authReducer.currentUser,
-   isLoading: chatReducer.isLoading,
-   chatRooms: chatReducer.chatRooms,
-})
-const mapDespatchToProps = dispatch => bindActionCreators( { 
-   loadChats, addChat, deleteChat, push 
-}, dispatch)
-
-export default connect(mapStateToProps, mapDespatchToProps)(Layout)
+export default withStyles(useStyles)(Layout)

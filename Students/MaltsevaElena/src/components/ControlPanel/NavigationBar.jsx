@@ -1,27 +1,31 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
+// Routing
+import { withRouter } from 'react-router-dom'
+import { push } from 'connected-react-router'
+
 // Store
 import { bindActionCreators } from 'redux'
 import connect from 'react-redux/es/connect/connect'
-import { logoutUser } from '../../store/actions/users_action.js'
+import { logoutUser } from '../../store/actions/auth_action.js'
+
+// Components
+import Dialog from './PopupDialog.jsx'
 
 // Styles, UI
-import { withStyles } from '@material-ui/core/styles'
 import { AppBar, 
         Toolbar, 
         IconButton, 
-        Button,
         Menu, MenuItem, 
         ListItemIcon, ListItemText,
-        Dialog, DialogActions, DialogContent, DialogTitle, 
         Box } from '@material-ui/core'
 import { ForumRounded, 
         AccountCircleRounded, 
         Settings, 
         ExitToApp,
-        Face, 
-        Tune } from '@material-ui/icons'
+        Face } from '@material-ui/icons'
+import { withStyles } from '@material-ui/core/styles'
 
 const useStyles = (theme => ({
   appBar: {
@@ -33,7 +37,11 @@ const useStyles = (theme => ({
   },
   toolbar: {
     justifyContent: 'space-around'
-  }
+  },
+  activeMenu: {
+    backgroundColor: 'none',
+    color: theme.palette.secondary.main
+  },
 }))
 
 const StyledMenuItem = withStyles(theme => ({
@@ -48,12 +56,19 @@ class Navigation extends Component {
   static propTypes = {
     currentUser: PropTypes.object.isRequired,
     logoutUser: PropTypes.func,
+    location: PropTypes.object,
     classes: PropTypes.object,
   }
 
   state = {
     anchorEl: null,
     openDialog: false,
+    activeItem: '',
+  }
+
+  handleNavigate = link => {
+    this.props.push(link)
+    this.setState({ activeItem: link.substr(1) })
   }
 
   handleClick = event => {
@@ -64,50 +79,55 @@ class Navigation extends Component {
     this.setState({ anchorEl: null })
   }
 
-  handleClickOpenClose = () => {
+  handleOpenClose = () => {
     this.setState({ openDialog: !this.state.openDialog })
+  }
+
+  componentDidMount () {
+    const link = this.props.location.pathname.substr(1).split('/')[0]
+    this.setState({ activeItem: link })
   }
 
   render () {
     const { currentUser, logoutUser, classes } = this.props
-    const { anchorEl } = this.state
+    const { anchorEl, openDialog, activeItem } = this.state
 
     return (
       <><AppBar position="static" color="primary" className={ classes.appBar }>
         <Toolbar className={ classes.toolbar }>
-          <IconButton color="secondary">
-            <ForumRounded />
-          </IconButton>
-          <IconButton color="inherit">
-            <AccountCircleRounded />
-          </IconButton>
+
+          <IconButton
+            className={ activeItem === 'chats' ? classes.activeMenu : '' } 
+            onClick={ () => this.handleNavigate(`/chats`) }
+            children={ <ForumRounded /> }
+          />
           
+          <IconButton
+            className={ activeItem === 'contacts' ? classes.activeMenu : ''  }
+            onClick={ () => this.handleNavigate(`/contacts`) }
+            children={ <AccountCircleRounded /> }
+          />
+          
+          <IconButton 
+            onClick={ this.handleClick }
+            children={ <Settings /> }
+          />
+
           {/* Settings menu */}
-          <IconButton color="inherit" onClick={ this.handleClick }>
-            <Settings />
-          </IconButton>
           <Menu elevation={ 5 } getContentAnchorEl={ null }
             anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
             transformOrigin={{ vertical: 'bottom', horizontal: 'right' }}
             anchorEl={ anchorEl }
-            open={ Boolean(anchorEl) }
+            open={ !!anchorEl }
             onClose={ this.handleClose } >
-            <StyledMenuItem onClick={ this.handleClickOpenClose }>
-              <ListItemIcon>
-                <Face fontSize="small" />
-              </ListItemIcon>
+
+            <StyledMenuItem onClick={ this.handleOpenClose }>
+              <ListItemIcon children={ <Face /> }/>
               <ListItemText primary="My account" />
             </StyledMenuItem>
-            <StyledMenuItem disabled>
-              <ListItemIcon>
-                <Tune fontSize="small" />
-              </ListItemIcon>
-              <ListItemText primary="General settings" />
-            </StyledMenuItem>
+
             <StyledMenuItem onClick={ () => logoutUser() }>
-              <ListItemIcon>
-                <ExitToApp fontSize="small" />
-              </ListItemIcon>
+              <ListItemIcon children={ <ExitToApp /> }/>
               <ListItemText primary="Log out" />
             </StyledMenuItem>
           </Menu>
@@ -116,31 +136,26 @@ class Navigation extends Component {
       </AppBar>
 
       {/* Popup: account info */}
-      <Dialog maxWidth="xs" open={ this.state.openDialog } onClose={ this.handleClickOpenClose }>
-        <DialogTitle>Account info</DialogTitle>
-        <DialogContent>
+      <Dialog
+        open={ openDialog } 
+        handleClick={ this.handleOpenClose }
+        title="Account info"
+        content={<>
           <Box m={ 1 }>
             Name: { currentUser.userName }
           </Box>
           <Box m={ 1 }>
             Email: { currentUser.email }
           </Box>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={ this.handleClickOpenClose } >
-              Close
-          </Button>
-          <Button disabled color="secondary">
-              Edit
-          </Button>
-        </DialogActions>
-      </Dialog></>
+        </>}
+        cancelBtnTxt="Close"
+        submitBtnTxt="Edit"
+        submitAction={ this.handleNewChat }
+      /></>
     )
   }
 }
-// const mapStateToProps = ({ userReducer }) => ({
-//   currentUser: userReducer.currentUser,
-// })
-const mapDispatchToProps = dispatch => bindActionCreators({ logoutUser }, dispatch)
+const mapStateToProps = ({ authReducer }) => ({ currentUser: authReducer.currentUser })
+const mapDispatchToProps = dispatch => bindActionCreators({ logoutUser, push }, dispatch)
 
-export default connect(null, mapDispatchToProps)(withStyles(useStyles)(Navigation))
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(useStyles)(withRouter(Navigation)))
