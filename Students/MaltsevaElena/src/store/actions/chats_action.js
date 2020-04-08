@@ -27,7 +27,7 @@ export let START_CHAT_CREATING = '@@chat/START_CHAT_CREATING'
 export let SUCCESS_CHAT_CREATING = '@@chat/SUCCESS_CHAT_CREATING'
 export let ERROR_CHAT_CREATING = '@@chat/ERROR_CHAT_CREATING'
 
-export let addChat = (title, userId, contactId='5e7dd46dc765d9e2edaedc74') => ({
+export let addChat = (userId, contactId='5e7dd46dc765d9e2edaedc74') => ({
    [RSAA]: {
       endpoint: '/api/chat',
       method: 'POST',
@@ -35,7 +35,7 @@ export let addChat = (title, userId, contactId='5e7dd46dc765d9e2edaedc74') => ({
          'Content-Type': 'application/json',
          'Authorization': `Bearer ${localStorage.getItem('token')}`
       },
-      body: JSON.stringify({title, participants:[userId, contactId]}),
+      body: JSON.stringify({ participants: [userId, contactId] }),
       types: [
          START_CHAT_CREATING,
          {

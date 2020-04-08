@@ -28,18 +28,26 @@ const useStyles = (theme => ({
 
 class Layout extends Component {
    static propTypes = {
+      currentUser: PropTypes.object,
       chatId: PropTypes.string,
       chatRooms: PropTypes.object,
       classes: PropTypes.object
    }
 
    render() {
-      const { chatId, chatRooms, classes } = this.props
+      const { currentUser, chatId, chatRooms, classes } = this.props
+
+      let title = ''
+      if (chatId && chatRooms[chatId]) { 
+         chatRooms[chatId].participants.forEach(user => (
+            user._id === currentUser._id ? '' : title = user.userName
+         ))
+      }
 
       return (
          <div>
             {/* Shown while chat isn't selected */}
-            { !chatId && 
+            { (!chatId || !chatRooms[chatId]) && 
                <Box className={ classes.emptyBlock }>
                   <ForumRounded fontSize="large"/>
                   Select a chat or create new one<br/>to start conversation
@@ -47,8 +55,8 @@ class Layout extends Component {
             }
 
             {/* Shown when chat is selected */}
-            { chatId && <>
-               <Header title={ chatRooms[chatId].title }/>
+            { (chatId && chatRooms[chatId]) && <>
+               <Header title={ title }/>
                <MessagesField messages={ chatRooms[chatId].messageList }/>
                <NewMessageForm chatId={ chatId }/>
             </>}
@@ -57,6 +65,9 @@ class Layout extends Component {
    }
 }
 
-const mapStateToProps = ({ chatReducer }) => ({ chatRooms: chatReducer.chatRooms })
+const mapStateToProps = ({ authReducer, chatReducer }) => ({
+   currentUser: authReducer.currentUser,
+   chatRooms: chatReducer.chatRooms,
+})
 
 export default connect(mapStateToProps)(withStyles(useStyles)(Layout))

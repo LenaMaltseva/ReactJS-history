@@ -1,18 +1,24 @@
 const { Schema, model, Types } = require('mongoose')
 
 const chatSchema = new Schema ({
-   title: { type: String, required: true },
    messageList: [{ type: Types.ObjectId, ref: 'Message' }],
-   participants: [{ type: Types.ObjectId, ref: 'User' }],
+   participants: [{ type: Types.ObjectId, required: true, ref: 'User' }],
 })
 
 chatSchema.post('find', async docs => {
    for(let doc of docs) {
-     await doc
+      await doc
       .populate('messageList')
       .populate('participants', ['_id', 'userName'])
       .execPopulate()
    }
+})
+
+chatSchema.post('save', async (doc, next) => {
+   await doc
+   .populate('participants', ['_id', 'userName'])
+   .execPopulate()
+   next()
 })
 
 module.exports = model('Chat', chatSchema)
