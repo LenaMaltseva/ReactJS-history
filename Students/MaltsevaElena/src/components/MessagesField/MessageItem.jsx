@@ -32,13 +32,11 @@ const useStyles = makeStyles(theme => ({
    }
  }))
 
-let msg = (props) => {
-
+export default (props) => {
    const classes = useStyles()
+   let { senderId, text, created, currentUserId } = props
 
-   let { sender, text, created, currentUser } = props
-
-   let boxView = (sender === currentUser._id ? classes.currentUserMsg : classes.responderMsg)
+   let boxView = (senderId === currentUserId ? classes.currentUserMsg : classes.responderMsg)
 
    let createdToDate = new Date(Date.parse(created))
    let msgDateTime = createdToDate.toLocaleString('ru', {
@@ -54,14 +52,12 @@ let msg = (props) => {
       <Grid container wrap="nowrap" className={ classes.root }>
          <Box className={`${classes.bubble} ${boxView} `}>
             <Grid item >
-               <Typography variant="body1"> { text } </Typography>
+               <Typography variant="body1" children={ text }/>
             </Grid>
             <Grid item className={ classes.dateTime }>
-               <Typography variant="caption"> { msgDateTime } </Typography>
+               <Typography variant="caption" children={ msgDateTime }/>
             </Grid>
          </Box>
       </Grid>
    )
 }
-
-export default msg

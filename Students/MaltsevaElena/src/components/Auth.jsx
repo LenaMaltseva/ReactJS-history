@@ -4,15 +4,16 @@ import PropTypes from 'prop-types'
 // Store
 import { bindActionCreators } from 'redux'
 import connect from 'react-redux/es/connect/connect'
-import { registerNewUser, loginUser } from '../../store/actions/users_action.js'
+import { registerNewUser, loginUser } from '../store/actions/auth_action.js'
+
+// Components
+import Alert from './Alert.jsx'
 
 // Styles, UI
 import { Paper, 
          Tabs, Tab,
          TextField,
-         Snackbar,
          Button } from '@material-ui/core'
-import { Alert } from '@material-ui/lab'
 import { withStyles } from '@material-ui/core/styles'
 
 const useStyles = (theme => ({
@@ -43,7 +44,7 @@ class Auth extends Component {
    static propTypes = {
       registerNewUser: PropTypes.func.isRequired, 
       registerErrors: PropTypes.array,
-      hasRegistered: PropTypes.bool.isRequired,
+      successRegistered: PropTypes.bool.isRequired,
       loginUser: PropTypes.func.isRequired,
       authMessage: PropTypes.string,
       classes: PropTypes.object
@@ -56,14 +57,7 @@ class Auth extends Component {
       password: '',
       emailError: '',
       passwordError: '',
-      openSnackbar: false,
-   }
-
-   handleClose = (event, reason) => {
-      if (reason === 'clickaway') {
-         return
-      }
-      this.setState({ openSnackbar: false })
+      showAlert: false,
    }
 
    handleChangeTab = (event, newValue) => {
@@ -115,7 +109,7 @@ class Auth extends Component {
 
    componentDidUpdate (prevProps) {
       if (this.props.authMessage !== prevProps.authMessage) {
-         this.setState({ openSnackbar: true })
+         this.setState({ showAlert: true })
       }
 
       if (this.props.registerErrors && this.props.registerErrors !== prevProps.registerErrors) {
@@ -128,14 +122,14 @@ class Auth extends Component {
          })
       }
 
-      if (this.props.hasRegistered !== prevProps.hasRegistered) {
+      if (this.props.successRegistered !== prevProps.successRegistered) {
          this.setState({ tabValue: 0, emailError: '', passwordError: '' })
       }
    }
 
    render () {
-      const { hasRegistered, authMessage, classes } = this.props
-      const { tabValue, userName, email, password, emailError, passwordError, openSnackbar } = this.state
+      const { successRegistered, authMessage, classes } = this.props
+      const { tabValue, userName, email, password, emailError, passwordError, showAlert } = this.state
 
       return (
          <div className="container container_position__center">
@@ -193,24 +187,22 @@ class Auth extends Component {
                
             </Paper>
 
-            <Snackbar anchorOrigin={{ vertical: 'top', horizontal: 'center'  }}
-            open={ openSnackbar } 
-            autoHideDuration={ 6000 } 
-            onClose={ this.handleClose }>
-               <Alert onClose={ this.handleClose } severity={ hasRegistered ? "success" : "error" } variant="outlined">
-               { hasRegistered ? "Registration has completed successfully" : authMessage } 
-               </Alert>
-            </Snackbar>
-
+            { showAlert && 
+               <Alert 
+                  severity={ successRegistered ? "success" : "error"} 
+                  message={ authMessage }
+               /> 
+            }
+            
          </div>
       )
    }
 }
 
-const mapStateToProps = ({ userReducer }) => ({
-   hasRegistered: userReducer.hasRegistered,
-   registerErrors: userReducer.registerErrors,
-   authMessage: userReducer.authMessage,
+const mapStateToProps = ({ authReducer }) => ({
+   successRegistered: authReducer.successRegistered,
+   registerErrors: authReducer.registerErrors,
+   authMessage: authReducer.authMessage,
 })
 const mapDespatchToProps = dispatch => bindActionCreators( { 
    registerNewUser, loginUser

@@ -1,5 +1,4 @@
 import React from 'react'
-import ReactDom from 'react-dom'
 
 // Styles, UI
 import { AppBar, Toolbar, IconButton, Typography } from '@material-ui/core'
@@ -20,7 +19,7 @@ const useStyles = makeStyles(theme => ({
    }
 }))
 
-let header = (props) => {
+export default (props) => {
    const classes = useStyles()
    const { title } = props
 
@@ -29,10 +28,10 @@ let header = (props) => {
          <Toolbar className={ classes.toolbar }>
             <Typography variant="subtitle1"> { title } </Typography>
             <div>
-               <IconButton aria-label="search" color="inherit">
+               <IconButton disabled aria-label="search" color="inherit">
                   <SearchIcon />
                </IconButton>
-               <IconButton aria-label="display more actions" edge="end" color="inherit">
+               <IconButton disabled aria-label="display more actions" edge="end" color="inherit">
                   <MoreIcon />
                </IconButton>
             </div>
@@ -40,5 +39,3 @@ let header = (props) => {
       </AppBar>
    )
 }
-
-export default header

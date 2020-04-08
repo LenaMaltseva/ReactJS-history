@@ -4,7 +4,7 @@ import { SUCCESS_MESSAGE_SENDING } from '../actions/messages_action.js'
 import { SUCCESS_CHATS_LOADING, 
          SUCCESS_CHAT_CREATING, 
          SUCCESS_CHAT_DELETING } from '../actions/chats_action.js'
-import { LOGOUT } from '../actions/users_action.js'
+import { LOGOUT } from '../actions/auth_action.js'
 
 const initialStore = {
    chatRooms: {},

@@ -35,7 +35,7 @@ router.post('/register',
          const user = new User({ userName, email, password: hashedPassword })
          await user.save()
          user.password = undefined
-         res.status(201).json({ user })
+         res.status(201).json({ user, message: 'Registration has completed successfully' })
 
       } catch (e) {
          res.status(500).json({ message: 'Something get wrong, try again', err: e })
