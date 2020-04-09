@@ -17,21 +17,17 @@ export default function authReducer (store = initinalStore, action) {
    switch (action.type) {
 
       case SUCCESS_REGISTER: {
-         const { user, message } = action.payload
-         const { _id, userName, email } = user
+         const { message } = action.payload
          return update(store, {
             successRegistered: { $set: true },
-            authMessage: { $set: message },
-            contacts: {
-               $merge: { [_id]: { userName, email } }
-            }, 
+            authMessage: { $set: message }
          })
       }
       case ERROR_REGISTER: {
          const registerErrors = []
-         action.payload.errors ? 
-            action.payload.errors.forEach(error => registerErrors.push(error)) :
-            ""
+         action.payload.errors 
+            ? action.payload.errors.forEach(error => registerErrors.push(error)) 
+            : ""
          return update(store, {
             successRegistered: { $set: false },
             registerErrors: { $set: registerErrors },
