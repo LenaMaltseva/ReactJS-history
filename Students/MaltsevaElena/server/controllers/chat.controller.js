@@ -19,7 +19,7 @@ module.exports = {
    async addWelcomeChat (newUserId) {
       const bot = await User.findOne({ userName: 'ReactGram Bot' })
    
-      let welcomeChat = new Chat ({ participants: [newUserId, bot._id] })
+      let welcomeChat = new Chat ({ participants: [newUserId, bot._id], type: 'default' })
       welcomeChat = await welcomeChat.save()
    
       const welcomeTxt = `Welcome to Reactgram! Start new conversation now: switch to contacts in left panel (press middle button in bottom menu) and choose any contact for create new chat. If you have any question - write me here :)`

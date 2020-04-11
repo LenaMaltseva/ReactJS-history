@@ -1,6 +1,7 @@
 const { Schema, model, Types } = require('mongoose')
 
 const chatSchema = new Schema ({
+   type: {type: String, default: 'custom'},
    messageList: [{ type: Types.ObjectId, ref: 'Message' }],
    participants: [{ type: Types.ObjectId, required: true, ref: 'User' }],
 })

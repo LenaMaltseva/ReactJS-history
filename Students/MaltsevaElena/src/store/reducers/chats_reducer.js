@@ -18,8 +18,8 @@ export default function chatReducer (store = initialStore, action) {
       case SUCCESS_CHATS_LOADING: {
          const chatRooms = {}
          action.payload.forEach(chat => {
-            const { _id, messageList, participants } = chat
-            chatRooms[_id] = { messageList, participants }
+            const { _id, type, messageList, participants } = chat
+            chatRooms[_id] = { type, messageList, participants }
          })
          return update(store, {
             chatRooms: { $set: chatRooms },
@@ -29,10 +29,10 @@ export default function chatReducer (store = initialStore, action) {
 
       // Change data cases
       case SUCCESS_CHAT_CREATING: {
-         const { _id, messageList, participants } = action.payload
+         const { _id, type, messageList, participants } = action.payload
          return update(store, {
             chatRooms: {
-               $merge: { [_id]: { messageList, participants } }
+               $merge: { [_id]: { type, messageList, participants } }
             }
          })
       }
