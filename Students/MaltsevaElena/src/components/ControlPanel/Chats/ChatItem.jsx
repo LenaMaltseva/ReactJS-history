@@ -9,10 +9,9 @@ import connect from 'react-redux/es/connect/connect'
 import { deleteChat } from '../../../store/actions/chats_action.js'
 
 // Styles, UI
-import { Box, 
-         ListItem, ListItemAvatar, ListItemIcon, ListItemText, 
-         Avatar,
+import { Avatar, 
          IconButton,
+         ListItem, ListItemAvatar, ListItemIcon, ListItemText, 
          Menu, MenuItem } from '@material-ui/core'
 import MoreIcon from '@material-ui/icons/MoreHoriz'
 import DeleteIcon from '@material-ui/icons/Delete'
@@ -20,17 +19,17 @@ import { makeStyles, withStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles(theme => ({
    root: {
-      '& .MuiListItem-root:hover': {
+      '&:hover': {
          backgroundColor: theme.palette.primary.light,
          cursor: 'pointer'
       },
-      '& .Mui-selected': {
+      '&.Mui-selected, &.Mui-selected:hover': {
          backgroundColor: theme.palette.primary.main,
          color: theme.palette.secondary.main,
          '& .MuiListItemAvatar-root > .MuiAvatar-root': {
             backgroundColor: theme.palette.secondary.main,
             color: theme.palette.common.white
-         }
+         },
       },
    },
    avatar: {
@@ -62,38 +61,42 @@ let ChatItem = props => {
    const handleClose = () => setAnchorEl(null)
 
    return (
-      <Box className={ classes.root }>
-         <ListItem divider={ true } 
-            selected={ isSelected ? true : false } 
-            onClick={ () => push(`/chats/${chatRoomId}`) } >
-            <ListItemAvatar>
-               <Avatar className={ classes.avatar } children={ title[0].toUpperCase() }/>
-            </ListItemAvatar>
-            <ListItemText primary={ title } secondary={ lastMessage } />
+      <ListItem divider={ true } className={ classes.root }
+         selected={ isSelected ? true : false } 
+         onClick={ () => push(`/chats/${chatRoomId}`) } 
+      >
+         <ListItemAvatar>
+            <Avatar className={ classes.avatar } children={ title[0].toUpperCase() }/>
+         </ListItemAvatar>
+         <ListItemText 
+            primary={ title } 
+            primaryTypographyProps={{ noWrap: true }}
+            secondary={ lastMessage } 
+            secondaryTypographyProps={{ noWrap: true }}
+         />
 
-            {/* Chat's actions */}
-            { isSelected && 
-               <IconButton aria-label="display more actions" edge="end"
-                  onClick={ handleClick }
-                  children={ <MoreIcon /> }
-               />
-            }
+         {/* Chat's actions */}
+         { isSelected && 
+            <IconButton aria-label="display more actions" edge="end"
+               onClick={ handleClick }
+               children={ <MoreIcon /> }
+            />
+         }
 
-            <Menu elevation={ 5 } getContentAnchorEl={ null }
-               anchorOrigin={{ vertical: 'center', horizontal: 'right' }}
-               transformOrigin={{ vertical: 'center', horizontal: 'right' }}
-               anchorEl={ anchorEl }
-               open={ !!anchorEl }
-               onClose={ handleClose } 
-            >   
-               <StyledMenuItem onClick={ () => deleteChat(chatRoomId) }>
-                  <ListItemIcon children={ <DeleteIcon /> }/>
-                  <ListItemText primary="Delete" />
-               </StyledMenuItem>
-            </Menu>
+         <Menu elevation={ 5 } getContentAnchorEl={ null }
+            anchorOrigin={{ vertical: 'center', horizontal: 'right' }}
+            transformOrigin={{ vertical: 'center', horizontal: 'right' }}
+            anchorEl={ anchorEl }
+            open={ !!anchorEl }
+            onClose={ handleClose } 
+         >   
+            <StyledMenuItem onClick={ () => deleteChat(chatRoomId) }>
+               <ListItemIcon children={ <DeleteIcon /> }/>
+               <ListItemText primary="Delete" />
+            </StyledMenuItem>
+         </Menu>
 
-         </ListItem>
-      </Box>
+      </ListItem>
    )
 }
 

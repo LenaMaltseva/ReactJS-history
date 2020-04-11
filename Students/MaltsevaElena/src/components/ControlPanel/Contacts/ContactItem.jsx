@@ -45,8 +45,10 @@ let ContactItem = props => {
             } } 
          >
             <ListItemText 
-               primary={ contactName } 
-               secondary={ contactEmail } 
+               primary={ contactName }
+               primaryTypographyProps={{ noWrap: true }}
+               secondary={ contactEmail }
+               secondaryTypographyProps={{ noWrap: true }}
             />
             <IconButton aria-label="start conversation" edge="end" children={ <Add /> }/>
          </ListItem>
