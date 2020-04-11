@@ -1,25 +1,11 @@
 const express = require('express')
 const router = express.Router()
 
-const Chat = require('../models/Chat.js')
-const Message = require('../models/Message.js')
+const chat = require('../controllers/chat.controller.js')
 
 // /chat
-router.get('/', async(req, res) => {
-   const chats = await Chat.find({participants: req.user.userId})
-   res.json(chats)
-})
-
-router.post('/', async (req, res) => {
-   let chat = new Chat (req.body)
-   chat = await chat.save()
-   res.json(chat)
-})
-
-router.delete('/', async (req, res) => {
-   await Chat.findOneAndDelete({ _id: req.body.chatId })
-   await Message.deleteMany({ chatId: req.body.chatId })
-   res.json({ _id: req.body.chatId })
-})
+router.get('/', chat.loadChats)
+router.post('/', chat.addNewChat)
+router.delete('/', chat.deleteChat)
 
 module.exports = router

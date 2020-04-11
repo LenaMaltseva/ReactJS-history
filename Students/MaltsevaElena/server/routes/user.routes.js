@@ -1,15 +1,9 @@
 const express = require('express')
 const router = express.Router()
 
-const User = require('../models/User.js')
+const user = require('../controllers/user.controller.js')
 
 // /user
-router.get('/', async (req, res) => {
-   const users = await User.find()
-   users.forEach(user => {
-      user.password = undefined
-   })
-   res.json(users)
-})
+router.get('/', user.loadUsers)
 
 module.exports = router
