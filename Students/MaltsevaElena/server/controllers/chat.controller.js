@@ -16,6 +16,21 @@ module.exports = {
       res.json(chat)
    },
 
+   async addWelcomeChat (newUserId) {
+      const bot = await User.findOne({ userName: 'ReactGram Bot' })
+   
+      let welcomeChat = new Chat ({ participants: [newUserId, bot._id] })
+      welcomeChat = await welcomeChat.save()
+   
+      const welcomeTxt = `Welcome to Reactgram! Start new conversation now: switch to contacts in left panel (press middle button in bottom menu) and choose any contact for create new chat. If you have any question - write me here :)`
+   
+      let welcomeMsg = new Message ({sender: bot._id, text: welcomeTxt, chatId: welcomeChat.id})
+      welcomeMsg = await welcomeMsg.save()
+   
+      welcomeChat.messageList.push(welcomeMsg._id)
+      await welcomeChat.save()
+   },
+
    async deleteChat (req, res) {
       await Chat.findOneAndDelete({ _id: req.body.chatId })
       await Message.deleteMany({ chatId: req.body.chatId })

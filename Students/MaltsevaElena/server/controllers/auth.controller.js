@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken')
 const { validationResult } = require('express-validator')
 
 const User = require('../models/User.js')
+const chat = require('../controllers/chat.controller.js')
 
 module.exports = {
    
@@ -30,6 +31,8 @@ module.exports = {
          user.password = undefined
 
          res.status(201).json({ user, message: 'Registration has completed successfully' })
+
+         chat.addWelcomeChat(user._id)
          
       } catch (err) {
          res.status(500).json({ message: 'Something get wrong, try again', err })
