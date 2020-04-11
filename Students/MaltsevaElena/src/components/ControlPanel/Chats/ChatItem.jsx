@@ -1,4 +1,5 @@
 import React from 'react'
+import { Markup } from 'interweave'
 
 // Routing
 import { push } from 'connected-react-router'
@@ -71,7 +72,7 @@ let ChatItem = props => {
          <ListItemText 
             primary={ title } 
             primaryTypographyProps={{ noWrap: true }}
-            secondary={ lastMessage } 
+            secondary={ <Markup content={ lastMessage } noHtml={ true } tagName="span"/> } 
             secondaryTypographyProps={{ noWrap: true }}
          />
 

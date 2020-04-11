@@ -22,7 +22,7 @@ module.exports = {
       let welcomeChat = new Chat ({ participants: [newUserId, bot._id], type: 'default' })
       welcomeChat = await welcomeChat.save()
    
-      const welcomeTxt = `Welcome to Reactgram! Start new conversation now: switch to contacts in left panel (press middle button in bottom menu) and choose any contact for create new chat. If you have any question - write me here :)`
+      const welcomeTxt = `Welcome to Reactgram! <br/>Start new conversation now: <br/>– switch to contacts in left panel (press middle button in bottom menu); <br/>– and choose any contact for create new chat. <br/>If you have any question - write me here :)`
    
       let welcomeMsg = new Message ({sender: bot._id, text: welcomeTxt, chatId: welcomeChat.id})
       welcomeMsg = await welcomeMsg.save()

@@ -1,4 +1,5 @@
 import React from 'react'
+import Interweave from 'interweave'
 
 // Styles, UI
 import { Box, Grid, Typography } from '@material-ui/core'
@@ -52,7 +53,7 @@ export default (props) => {
       <Grid container wrap="nowrap" className={ classes.root }>
          <Box className={`${classes.bubble} ${boxView} `}>
             <Grid item >
-               <Typography variant="body1" children={ text }/>
+               <Typography variant="body1" children={ <Interweave content={ text }/> }/>
             </Grid>
             <Grid item className={ classes.dateTime }>
                <Typography variant="caption" children={ msgDateTime }/>
