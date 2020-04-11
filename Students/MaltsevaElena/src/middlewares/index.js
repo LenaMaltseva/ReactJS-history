@@ -1,7 +1,7 @@
 import { apiMiddleware } from 'redux-api-middleware'
-// import messageMiddleware from './messageMiddleware.js'
+import botMiddleware from './bot.middleware.js'
 
 export default [
    apiMiddleware,
-   // messageMiddleware,
+   botMiddleware,
 ]
