@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import socket from '../../core/socket.js'
 
 // Store
 import { bindActionCreators } from 'redux'
@@ -38,6 +39,7 @@ class Layout extends Component {
    }
 
    newMessage = (sender, text) => {
+      socket.emit('newMessage')
       this.props.sendMessage(sender, text, this.props.chatId)
    }
 

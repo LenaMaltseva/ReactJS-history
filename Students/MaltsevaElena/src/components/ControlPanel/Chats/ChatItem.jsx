@@ -1,5 +1,6 @@
 import React from 'react'
 import { Markup } from 'interweave'
+import socket from '../../../core/socket.js'
 
 // Routing
 import { push } from 'connected-react-router'
@@ -61,6 +62,11 @@ let ChatItem = props => {
 
    const handleClose = () => setAnchorEl(null)
 
+   const removeChat = (chatId) => {
+      socket.emit('deleteChat')
+      deleteChat(chatId)
+   }
+
    return (
       <ListItem divider={ true } className={ classes.root }
          selected={ isSelected ? true : false } 
@@ -91,7 +97,7 @@ let ChatItem = props => {
             open={ !!anchorEl }
             onClose={ handleClose } 
          >   
-            <StyledMenuItem onClick={ () => deleteChat(chatRoomId) }>
+            <StyledMenuItem onClick={ () => removeChat(chatRoomId) }>
                <ListItemIcon children={ <DeleteIcon /> }/>
                <ListItemText primary="Delete" />
             </StyledMenuItem>

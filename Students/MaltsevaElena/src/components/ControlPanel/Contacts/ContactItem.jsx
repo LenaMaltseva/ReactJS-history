@@ -1,4 +1,5 @@
 import React from 'react'
+import socket from '../../../core/socket.js'
 
 // Routing
 import { push } from 'connected-react-router'
@@ -36,11 +37,16 @@ let ContactItem = props => {
    const classes = useStyles()
    const { contactId, contactName, contactEmail, currentUser, addChat, push } = props
 
+   const newChat = (userId, contactId) => {
+      socket.emit('newChat')
+      addChat(userId, contactId)
+   }
+
    return (
       <Box className={ classes.root }>
          <ListItem divider={ true } 
             onClick={ () => {
-               addChat(currentUser._id, contactId)
+               newChat(currentUser._id, contactId)
                push('/')
             } } 
          >

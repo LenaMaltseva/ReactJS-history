@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import socket from '../../../core/socket.js'
 
 // Store
 import { bindActionCreators } from 'redux'
@@ -24,7 +25,8 @@ class ChatField extends Component {
    }
 
    componentDidMount () {
-      this.props.loadChats()
+      setInterval(() => { this.props.loadChats() }, 1000) 
+      socket.on('updChatList', () => this.props.loadChats())
    }
 
    render() {
