@@ -132,7 +132,7 @@ class Auth extends Component {
       const { tabValue, userName, email, password, emailError, passwordError, showAlert } = this.state
 
       return (
-         <div className="container container_position__center">
+         <div className="container__centered">
             <Paper square elevation={10} className={ classes.root } >
 
                <Tabs centered
