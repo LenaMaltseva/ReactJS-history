@@ -4,8 +4,10 @@ const mongoose = require('mongoose')
 const router = require('./routes')
 
 const app = express()
+const server = require('http').createServer(app)
+const socketIO = require('socket.io')
+const io = require('./socket.js')(socketIO(server, { origins: '*:*' }))
 
-// Middlewares
 app.use(express.json({ extended: true }))
 app.use(router)
 
@@ -19,9 +21,9 @@ async function start() {
          useFindAndModify: false,
          useCreateIndex: true
       })
-      app.listen(PORT, () => console.log(`Server is listening on port ${PORT}`))
-   } catch (e) {
-      console.log('Server Error:', e.message)
+      server.listen(PORT, () => console.log(`Server is listening on port ${PORT}`))
+   } catch (err) {
+      console.log('Server Error:', err.message)
       process.exit(1)
    }
 }
