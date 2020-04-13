@@ -5,7 +5,7 @@ const User = require('../models/User')
 module.exports = {
    
    async loadChats (req, res) {
-      const chats = await Chat.find({participants: req.user.userId})
+      const chats = await Chat.find({ participants: req.user.userId }).sort({ messageList: -1 })
       res.json(chats)
    },
 
@@ -24,7 +24,7 @@ module.exports = {
    
       const welcomeTxt = `Welcome to Reactgram! <br/>Start new conversation now: <br/>– switch to contacts in left panel (press middle button in bottom menu); <br/>– and choose any contact for create new chat. <br/>If you have any question - write me here :)`
    
-      let welcomeMsg = new Message ({sender: bot._id, text: welcomeTxt, chatId: welcomeChat.id})
+      let welcomeMsg = new Message ({ sender: bot._id, text: welcomeTxt, chatId: welcomeChat.id })
       welcomeMsg = await welcomeMsg.save()
    
       welcomeChat.messageList.push(welcomeMsg._id)
