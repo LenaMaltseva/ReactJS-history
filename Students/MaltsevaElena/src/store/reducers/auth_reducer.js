@@ -10,7 +10,6 @@ const initinalStore = {
    currentUser: {},
    successRegistered: false,
    registerErrors: [],
-   authMessage: '',
 }
 
 export default function authReducer (store = initinalStore, action) {
@@ -20,7 +19,6 @@ export default function authReducer (store = initinalStore, action) {
          const { message } = action.payload
          return update(store, {
             successRegistered: { $set: true },
-            authMessage: { $set: message }
          })
       }
       case ERROR_REGISTER: {
@@ -31,7 +29,6 @@ export default function authReducer (store = initinalStore, action) {
          return update(store, {
             successRegistered: { $set: false },
             registerErrors: { $set: registerErrors },
-            authMessage: { $set: action.payload.message },
          })
       }
 
@@ -40,14 +37,12 @@ export default function authReducer (store = initinalStore, action) {
          localStorage.setItem('token', token)
          return update(store, {
             successRegistered: { $set: false },
-            authMessage: { $set: '' },
             currentUser: { $set: { ...user } },
          })
       }
       case ERROR_LOGIN: {
          return update(store, {
             successRegistered: { $set: false },
-            authMessage: { $set: action.payload.message },
          })
       }
 

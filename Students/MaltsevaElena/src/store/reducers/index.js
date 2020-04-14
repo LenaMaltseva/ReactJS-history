@@ -6,6 +6,7 @@ import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2'
 import chatReducer from './chats_reducer.js'
 import authReducer from './auth_reducer.js'
 import userReducer from './users_reducer.js'
+import responseReducer from './response.reducer.js'
 
 import { connectRouter } from 'connected-react-router'
 
@@ -26,7 +27,8 @@ const rootReducer = history => combineReducers({
    router: connectRouter(history),
    authReducer: persistReducer(authPersistConfig, authReducer),
    chatReducer,
-   userReducer 
+   userReducer,
+   responseReducer, 
 })
 
 export default history => persistReducer(rootPersistConfig, rootReducer(history))

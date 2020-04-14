@@ -43,9 +43,9 @@ class AuthLayout extends Component {
    }
 }
 
-const mapStateToProps = ({ authReducer }) => ({
+const mapStateToProps = ({ authReducer, responseReducer }) => ({
    successRegistered: authReducer.successRegistered,
-   authMessage: authReducer.authMessage,
+   authMessage: responseReducer.response.message,
 })
 
 export default connect(mapStateToProps)(AuthLayout)
