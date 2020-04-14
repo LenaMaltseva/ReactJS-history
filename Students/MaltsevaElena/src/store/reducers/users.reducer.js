@@ -1,6 +1,6 @@
 import update from 'react-addons-update'
 
-import { SUCCESS_USERS_LOADING } from '../actions/users_action.js'
+import { SUCCESS_USERS_LOADING } from '../actions/users.action.js'
 
 const initinalStore = {
    contacts: {},

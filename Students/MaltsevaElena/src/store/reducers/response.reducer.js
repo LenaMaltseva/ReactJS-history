@@ -4,17 +4,17 @@ import { SUCCESS_REGISTER,
          SUCCESS_LOGIN,
          ERROR_REGISTER,
          ERROR_LOGIN,
-         LOGOUT } from '../actions/auth_action.js'
+         LOGOUT } from '../actions/auth.action.js'
 import { SUCCESS_CHATS_LOADING,
          SUCCESS_CHAT_CREATING,
          SUCCESS_CHAT_DELETING,
          ERROR_CHATS_LOADING,
          ERROR_CHAT_CREATING,
-         ERROR_CHAT_DELETING } from '../actions/chats_action.js'
+         ERROR_CHAT_DELETING } from '../actions/chats.action.js'
 import { SUCCESS_USERS_LOADING,
-         ERROR_USERS_LOADING } from '../actions/users_action.js'
+         ERROR_USERS_LOADING } from '../actions/users.action.js'
 import { SUCCESS_MESSAGE_SENDING,
-         ERROR_MESSAGE_SENDING } from '../actions/messages_action.js'
+         ERROR_MESSAGE_SENDING } from '../actions/messages.action.js'
 
 const initialStore = {
    response: {},

@@ -8,7 +8,7 @@ import { push } from 'connected-react-router'
 // Store
 import { bindActionCreators } from 'redux'
 import connect from 'react-redux/es/connect/connect'
-import { logoutUser } from '../../store/actions/auth_action.js'
+import { logoutUser } from '../../store/actions/auth.action.js'
 
 // Components
 import Dialog from '../Modals/Dialog.jsx'

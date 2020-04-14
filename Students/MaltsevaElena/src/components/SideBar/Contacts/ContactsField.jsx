@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 // Store
 import { bindActionCreators } from 'redux'
 import connect from 'react-redux/es/connect/connect'
-import { loadUsers } from '../../../store/actions/users_action.js'
+import { loadUsers } from '../../../store/actions/users.action.js'
 
 // Components
 import ContactItem from './ContactItem.jsx'

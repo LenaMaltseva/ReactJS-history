@@ -5,7 +5,7 @@ import socket from '../../core/socket.js'
 // Store
 import { bindActionCreators } from 'redux'
 import connect from 'react-redux/es/connect/connect'
-import { sendMessage } from '../../store/actions/messages_action.js'
+import { sendMessage } from '../../store/actions/messages.action.js'
 
 // Styles, UI
 import { Input, 

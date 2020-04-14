@@ -1,10 +1,10 @@
 import update from 'react-addons-update'
 
-import { SUCCESS_MESSAGE_SENDING } from '../actions/messages_action.js'
+import { SUCCESS_MESSAGE_SENDING } from '../actions/messages.action.js'
 import { SUCCESS_CHATS_LOADING, 
          SUCCESS_CHAT_CREATING, 
-         SUCCESS_CHAT_DELETING } from '../actions/chats_action.js'
-import { LOGOUT } from '../actions/auth_action.js'
+         SUCCESS_CHAT_DELETING } from '../actions/chats.action.js'
+import { LOGOUT } from '../actions/auth.action.js'
 
 const initialStore = {
    chatRooms: {},
@@ -52,12 +52,14 @@ export default function chatReducer (store = initialStore, action) {
             }
          })
       }
+
       case LOGOUT: {
          return update(store, {
             chatRooms: { $set: {} },
             isLoading: { $set: true }
          })
       }
+
       default:
          return store
    }

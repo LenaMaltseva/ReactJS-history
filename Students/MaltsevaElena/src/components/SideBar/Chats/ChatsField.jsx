@@ -5,7 +5,7 @@ import socket from '../../../core/socket.js'
 // Store
 import { bindActionCreators } from 'redux'
 import connect from 'react-redux/es/connect/connect'
-import { loadChats } from '../../../store/actions/chats_action.js'
+import { loadChats } from '../../../store/actions/chats.action.js'
 
 // Components
 import ChatItem from './ChatItem.jsx'

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 // Store
 import { bindActionCreators } from 'redux'
 import connect from 'react-redux/es/connect/connect'
-import { registerNewUser, loginUser } from '../../store/actions/auth_action.js'
+import { registerNewUser, loginUser } from '../../store/actions/auth.action.js'
 
 // Styles, UI
 import { TextField, Button } from '@material-ui/core'

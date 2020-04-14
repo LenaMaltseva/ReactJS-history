@@ -4,7 +4,7 @@ import { SUCCESS_REGISTER,
          ERROR_REGISTER,
          SUCCESS_LOGIN,
          ERROR_LOGIN,
-         LOGOUT } from '../actions/auth_action.js'
+         LOGOUT } from '../actions/auth.action.js'
 
 const initinalStore = {
    currentUser: {},

@@ -7,7 +7,7 @@ import { push } from 'connected-react-router'
 // Store
 import { bindActionCreators } from 'redux'
 import connect from 'react-redux/es/connect/connect'
-import { addChat } from '../../../store/actions/chats_action.js'
+import { addChat } from '../../../store/actions/chats.action.js'
 
 // Styles, UI
 import { Box, 

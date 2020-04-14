@@ -3,9 +3,9 @@ import { persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2'
 
-import chatReducer from './chats_reducer.js'
-import authReducer from './auth_reducer.js'
-import userReducer from './users_reducer.js'
+import chatReducer from './chats.reducer.js'
+import authReducer from './auth.reducer.js'
+import userReducer from './users.reducer.js'
 import responseReducer from './response.reducer.js'
 
 import { connectRouter } from 'connected-react-router'

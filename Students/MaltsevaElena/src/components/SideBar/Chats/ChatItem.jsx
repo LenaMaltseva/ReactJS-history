@@ -8,7 +8,7 @@ import { push } from 'connected-react-router'
 // Store
 import { bindActionCreators } from 'redux'
 import connect from 'react-redux/es/connect/connect'
-import { deleteChat } from '../../../store/actions/chats_action.js'
+import { deleteChat } from '../../../store/actions/chats.action.js'
 
 // Styles, UI
 import { Avatar, 
