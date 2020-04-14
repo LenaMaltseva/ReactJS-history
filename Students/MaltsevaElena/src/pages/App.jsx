@@ -2,11 +2,14 @@ import React, { Component } from 'react'
 import { Grid } from '@material-ui/core'
 import PropTypes from 'prop-types'
 
-// Components
-import ControlPanel from './ControlPanel'
-import MessagesField from './MessagesField'
+// Store
+import connect from 'react-redux/es/connect/connect'
 
-export default class App extends Component {
+// Components
+import SideBar from '../components/SideBar/SideBar.jsx'
+import MessagesField from '../components/MessagesField/MessagesField.jsx'
+
+export default class AppLayout extends Component {
    static propTypes = {
       chatId: PropTypes.string,
    }
@@ -16,7 +19,7 @@ export default class App extends Component {
          <div className="container">
             <Grid container spacing={0}>
                <Grid item xs={4}>
-                  <ControlPanel chatId={ this.props.chatId }/>
+                  <SideBar chatId={ this.props.chatId }/>
                </Grid>
                <Grid item xs={8}>
                   <MessagesField chatId={ this.props.chatId }/>

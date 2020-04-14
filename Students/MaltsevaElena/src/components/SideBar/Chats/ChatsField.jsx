@@ -25,9 +25,9 @@ class ChatField extends Component {
    }
 
    componentDidMount () {
-      setInterval(() => { this.props.loadChats() }, 1000) 
-      socket.on('updChatList', () => this.props.loadChats())
-   }
+         setInterval(() => { this.props.loadChats() }, 1000) 
+         socket.on('updChatList', () => this.props.loadChats())
+      }
 
    render() {
       const { currentUser, isLoading, chatId, chatRooms, searchRequest } = this.props
@@ -39,15 +39,22 @@ class ChatField extends Component {
             const messages = chatRooms[chatRoomId].messageList
             const lastMsgIndex = messages.length - 1
 
-            let title = ''
+            let responder = {}
             chatRooms[chatRoomId].participants.forEach(user => (
-               user._id === currentUser._id ? '' : title = user.userName))
+               user._id === currentUser._id ? '' : responder = { id: user._id, userName: user.userName }
+            ))
+
+            const lastMessage = {}
+            if (messages.length) {
+               lastMessage.text = messages[lastMsgIndex].text 
+               lastMessage.sender = messages[lastMsgIndex].sender === responder.id ? responder.userName : 'Me'
+            }
          
             ChatsArr.push( 
                <ChatItem 
                   chatRoomId={ chatRoomId }
-                  title={ title }
-                  lastMessage={ messages.length ? messages[lastMsgIndex].text : '* No messages yet *'}
+                  title={ responder.userName }
+                  lastMessage={ lastMessage }
                   isSelected={ chatId === chatRoomId }
                   key={ chatRoomId }
                />

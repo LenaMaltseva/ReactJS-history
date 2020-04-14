@@ -5,73 +5,69 @@ import PropTypes from 'prop-types'
 import connect from 'react-redux/es/connect/connect'
 
 // Components
-import MessageItem from './MessageItem.jsx'
+import Header from './Header.jsx'
+import MessagesList from './MessagesList.jsx'
+import NewMessageForm from './NewMessageForm.jsx'
 
 // Styles, UI
 import { Box } from '@material-ui/core'
+import { ForumRounded } from '@material-ui/icons'
 import { withStyles } from '@material-ui/core/styles'
 
 const useStyles = (theme => ({
-   msgBlock: {
-      height: 'calc(100vh - 160px)',
+   emptyBlock: {
+      height: '100vh',
       display: 'flex',
       flexDirection: 'column',
-      justifyContent: 'flex-end',
-      padding: theme.spacing(2)
+      justifyContent: 'center',
+      alignItems: 'center',
+      textAlign: 'center',
+      color: theme.palette.text.secondary,
    },
-   msgList: {
-      overflow: 'auto'
-   }
 }))
 
-class MessagesField extends Component {
+class MessagesLayout extends Component {
    static propTypes = {
-      currentUser: PropTypes.object.isRequired,
-      messages: PropTypes.array,
-      classes: PropTypes.object,
-   }
-
-   msgList = React.createRef()
-
-   scrollToNewMsg () {
-      if (this.msgList.current && this.msgList.current.lastChild) {
-         this.msgList.current.lastChild.scrollIntoView({block: 'end', behavior: 'smooth'})
-      }
-   }
-
-   componentDidMount () {
-      this.scrollToNewMsg()
-   }
-   
-   componentDidUpdate () {
-      this.scrollToNewMsg()
+      currentUser: PropTypes.object,
+      chatId: PropTypes.string,
+      chatRooms: PropTypes.object,
+      classes: PropTypes.object
    }
 
    render() {
-      const { currentUser, messages, classes } = this.props
+      const { currentUser, chatId, chatRooms, classes } = this.props
 
-      let messageItems = messages.map(message => (
-            <MessageItem 
-               senderId={ message.sender } 
-               text={ message.text } 
-               created={ message.created }
-               currentUserId={ currentUser._id }
-               key={ message._id }
-            /> 
-         )
-      )
+      let title = ''
+      if (chatId && chatRooms[chatId]) { 
+         chatRooms[chatId].participants.forEach(user => (
+            user._id === currentUser._id ? '' : title = user.userName
+         ))
+      }
 
       return (
-         <Box className={ classes.msgBlock }>
-            <Box ref={ this.msgList } 
-               className={ classes.msgList } 
-               children={ messageItems }
-            />
-         </Box>
+         <div>
+            {/* Shown while chat isn't selected */}
+            { (!chatId || !chatRooms[chatId]) && 
+               <Box className={ classes.emptyBlock }>
+                  <ForumRounded fontSize="large"/>
+                  Select a chat or create new one<br/>to start conversation
+               </Box> 
+            }
+
+            {/* Shown when chat is selected */}
+            { (chatId && chatRooms[chatId]) && <>
+               <Header title={ title }/>
+               <MessagesList messages={ chatRooms[chatId].messageList }/>
+               <NewMessageForm chatId={ chatId }/>
+            </>}
+         </div>
       )
    }
 }
 
-const mapStateToProps = ({ authReducer }) => ({ currentUser: authReducer.currentUser })
+const mapStateToProps = ({ authReducer, chatReducer }) => ({
+   currentUser: authReducer.currentUser,
+   chatRooms: chatReducer.chatRooms,
+})
 
-export default connect(mapStateToProps)(withStyles(useStyles)(MessagesField))
+export default connect(mapStateToProps)(withStyles(useStyles)(MessagesLayout))

@@ -26,7 +26,7 @@ const useStyles = (theme => ({
    },
 }))
 
-class Layout extends Component {
+class SideBarLayout extends Component {
    static propTypes = {
       chatId: PropTypes.string,
    }
@@ -68,4 +68,4 @@ class Layout extends Component {
    }
 }
 
-export default withStyles(useStyles)(Layout)
+export default withStyles(useStyles)(SideBarLayout)

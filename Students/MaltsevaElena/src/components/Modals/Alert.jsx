@@ -7,7 +7,7 @@ import { Alert } from '@material-ui/lab'
 
 export default class CustomAlert extends Component {
    static propTypes = {
-      severity: PropTypes.string.isRequired,
+      severity: PropTypes.string,
       message: PropTypes.string.isRequired, 
    }
 
@@ -37,7 +37,7 @@ export default class CustomAlert extends Component {
             onClose={ this.handleClose }
          >
             <Alert
-               severity={ this.props.severity } 
+               severity={ this.props.severity || "error" } 
                variant="outlined"
                onClose={ this.handleClose } 
             >

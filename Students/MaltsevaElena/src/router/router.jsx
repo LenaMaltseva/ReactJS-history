@@ -8,8 +8,8 @@ import { Switch, Route, Redirect } from 'react-router-dom'
 import connect from 'react-redux/es/connect/connect'
 
 // Components
-import App from '../components/App.jsx'
-import Auth from '../components/Auth.jsx'
+import App from '../pages/App.jsx'
+import Auth from '../pages/Auth.jsx'
 
 class Router extends Component {
    static propTypes = {

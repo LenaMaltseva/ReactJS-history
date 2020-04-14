@@ -78,7 +78,12 @@ let ChatItem = props => {
          <ListItemText 
             primary={ title } 
             primaryTypographyProps={{ noWrap: true }}
-            secondary={ <Markup content={ lastMessage } noHtml={ true } tagName="span"/> } 
+            secondary={ 
+               <Markup 
+                  content={ lastMessage.text ? `${lastMessage.sender}: ${lastMessage.text}` : '* No messages yet *' } 
+                  noHtml={ true } tagName="span"
+               /> 
+            } 
             secondaryTypographyProps={{ noWrap: true }}
          />
 
