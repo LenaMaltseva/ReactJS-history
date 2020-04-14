@@ -12,12 +12,15 @@ const useStyles = (theme => ({
    root: {
       width: '350px',
       padding: theme.spacing(1, 0),
+      position: 'absolute',
+      zIndex: 1,
    },
 }))
 
 class AuthField extends Component {
    static propTypes = {
-      classes: PropTypes.object
+      successRegistered: PropTypes.bool.isRequired,
+      classes: PropTypes.object,
    }
 
    state = {
@@ -29,7 +32,6 @@ class AuthField extends Component {
    }
  
    componentDidUpdate (prevProps) {
-
       if (this.props.successRegistered !== prevProps.successRegistered) {
          this.setState({ tabValue: 0 })
       }

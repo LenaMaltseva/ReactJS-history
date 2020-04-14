@@ -26,14 +26,16 @@ class AuthLayout extends Component {
    }
 
    render () {
+      const { successRegistered, authMessage } = this.props
+
       return (
          <div className="container__centered">
-            <AuthField />
+            <AuthField successRegistered={ successRegistered }/>
 
             { this.state.showAlert && 
                <Alert 
-                  severity={ this.props.successRegistered ? "success" : ""} 
-                  message={ this.props.authMessage }
+                  severity={ successRegistered ? "success" : ""} 
+                  message={ authMessage }
                /> 
             }
          </div>
