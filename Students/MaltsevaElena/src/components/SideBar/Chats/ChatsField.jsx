@@ -20,14 +20,21 @@ class ChatField extends Component {
       isLoading: PropTypes.bool.isRequired,
       chatId: PropTypes.string,
       chatRooms: PropTypes.object.isRequired,
+      response: PropTypes.object,
       searchRequest: PropTypes.string,
       classes: PropTypes.object,
    }
 
    componentDidMount () {
-         setInterval(() => { this.props.loadChats() }, 1000) 
-         socket.on('updChatList', () => this.props.loadChats())
+      if (this.props.response.status !== 401) {
+         this.props.loadChats()
       }
+      socket.on('updChatList', () => {
+         if (this.props.response.status !== 401) {
+            this.props.loadChats()
+         }
+      })
+   }
 
    render() {
       const { currentUser, isLoading, chatId, chatRooms, searchRequest } = this.props
@@ -47,7 +54,7 @@ class ChatField extends Component {
             const lastMessage = {}
             if (messages.length) {
                lastMessage.text = messages[lastMsgIndex].text 
-               lastMessage.sender = messages[lastMsgIndex].sender === responder.id ? responder.userName : 'Me'
+               lastMessage.sender = messages[lastMsgIndex].sender === responder.id ? responder.userName.split(' ')[0] : 'Me'
             }
          
             ChatsArr.push( 
@@ -79,10 +86,11 @@ class ChatField extends Component {
    }
 }
 
-const mapStateToProps = ({ chatReducer, authReducer }) => ({
+const mapStateToProps = ({ authReducer, chatReducer, responseReducer }) => ({
    currentUser: authReducer.currentUser,
    isLoading: chatReducer.isLoading,
    chatRooms: chatReducer.chatRooms,
+   response: responseReducer.response,
 })
 const mapDespatchToProps = dispatch => bindActionCreators({ loadChats }, dispatch)
 

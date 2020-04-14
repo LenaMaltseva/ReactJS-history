@@ -17,11 +17,14 @@ class ContactsField extends Component {
       currentUser: PropTypes.object.isRequired,
       loadUsers: PropTypes.func.isRequired,
       isLoading: PropTypes.bool.isRequired,
+      response: PropTypes.object,
       searchRequest: PropTypes.string,
    }
 
    componentDidMount () {
-      this.props.loadUsers()
+      if (this.props.response.status !== 401) {
+         this.props.loadUsers()
+      }
    }
 
    render() {
@@ -58,10 +61,11 @@ class ContactsField extends Component {
    }
 }
 
-const mapStateToProps = ({ authReducer, userReducer }) => ({
+const mapStateToProps = ({ authReducer, userReducer,responseReducer }) => ({
    currentUser: authReducer.currentUser,
    isLoading: userReducer.isLoading,
    contacts: userReducer.contacts,
+   response: responseReducer.response,
 })
 const mapDespatchToProps = dispatch => bindActionCreators({ loadUsers }, dispatch)
 
