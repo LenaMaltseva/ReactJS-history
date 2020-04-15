@@ -40,10 +40,10 @@ class MessagesLayout extends Component {
    render() {
       const { currentUser, chatId, chatRooms, classes } = this.props
 
-      let title = ''
+      let responder = ''
       if (chatId && chatRooms[chatId]) { 
          chatRooms[chatId].participants.forEach(user => (
-            user._id === currentUser._id ? '' : title = user.userName
+            user._id === currentUser._id ? '' : responder = { ...user }
          ))
       }
 
@@ -59,7 +59,7 @@ class MessagesLayout extends Component {
 
             {/* Shown when chat is selected */}
             { (chatId && chatRooms[chatId]) && <>
-               <Header title={ title }/>
+               <Header responder={ responder }/>
                <MessagesList messages={ chatRooms[chatId].messageList }/>
                <NewMessageForm chatId={ chatId }/>
             </>}

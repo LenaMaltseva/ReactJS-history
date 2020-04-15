@@ -71,13 +71,16 @@ let ChatItem = props => {
             />
          </ListItemAvatar>
             
-         {/* </ListItemAvatar> */}
          <ListItemText 
             primary={ responder.userName } 
             primaryTypographyProps={{ noWrap: true }}
             secondary={ 
                <Markup 
-                  content={ lastMessage.text ? `${lastMessage.sender}: ${lastMessage.text}` : '* No messages yet *' } 
+                  content={ 
+                     lastMessage.text 
+                     ? lastMessage.sender ? `${lastMessage.sender}: ${lastMessage.text}` : lastMessage.text
+                     : '- no messages yet -' 
+                  } 
                   noHtml={ true } tagName="span"
                /> 
             } 

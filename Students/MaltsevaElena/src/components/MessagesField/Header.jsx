@@ -21,20 +21,31 @@ const useStyles = makeStyles(theme => ({
 
 export default (props) => {
    const classes = useStyles()
-   const { title } = props
+   const { responder } = props
 
    return (
       <AppBar position="static" className={ classes.appBar }>
          <Toolbar className={ classes.toolbar }>
-            <Typography variant="subtitle1"> { title } </Typography>
+
             <div>
-               <IconButton disabled aria-label="search" color="inherit">
-                  <SearchIcon />
-               </IconButton>
-               <IconButton disabled aria-label="display more actions" edge="end" color="inherit">
-                  <MoreIcon />
-               </IconButton>
+               <Typography variant="subtitle1" 
+                  children={ responder.userName }
+               />
+               <Typography variant="caption" 
+                  color={ responder.status === 'online' ? 'secondary' : 'textSecondary' }
+                  children={ responder.status } 
+               />
             </div>
+
+            <div>
+               <IconButton disabled aria-label="search" color="inherit"
+                  children={ <SearchIcon /> }
+               />
+               <IconButton disabled aria-label="display more actions" edge="end" color="inherit"
+                  children={ <MoreIcon /> }
+               />
+            </div>
+            
          </Toolbar>
       </AppBar>
    )

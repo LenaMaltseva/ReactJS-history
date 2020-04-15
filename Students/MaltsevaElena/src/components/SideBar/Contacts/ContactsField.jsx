@@ -32,7 +32,7 @@ class ContactsField extends Component {
       
       const ContactsArr = []
       Object.keys(contacts).forEach(contactId => {
-         if (currentUser._id !== contactId) {
+         if (contactId !== currentUser._id && contactId !== '5e7dd46dc765d9e2edaedc74' ) {
             ContactsArr.push( 
                <ContactItem
                   contactId={ contactId }

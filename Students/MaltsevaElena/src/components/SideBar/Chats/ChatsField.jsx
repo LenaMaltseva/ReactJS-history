@@ -48,7 +48,7 @@ class ChatField extends Component {
             const lastMessage = {}
             if (messages.length) {
                lastMessage.text = messages[lastMsgIndex].text 
-               lastMessage.sender = messages[lastMsgIndex].sender === responder._id ? responder.userName.split(' ')[0] : 'Me'
+               lastMessage.sender = messages[lastMsgIndex].sender === responder._id ? '' : 'Me'
             }
          
             ChatsArr.push( 
