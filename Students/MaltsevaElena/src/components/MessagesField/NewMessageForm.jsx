@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import socket from '../../core/socket.js'
 
 // Store
 import { bindActionCreators } from 'redux'
@@ -39,7 +38,6 @@ class Layout extends Component {
    }
 
    newMessage = (sender, text) => {
-      socket.emit('newMessage')
       this.props.sendMessage(sender, text, this.props.chatId)
    }
 
@@ -94,6 +92,6 @@ class Layout extends Component {
 const mapStateToProps = ({ authReducer }) => ({
    currentUser: authReducer.currentUser,
 })
-const mapDespatchToProps = dispatch => bindActionCreators({ sendMessage }, dispatch)
+const mapDispatchToProps = dispatch => bindActionCreators({ sendMessage }, dispatch)
 
-export default connect(mapStateToProps, mapDespatchToProps)(withStyles(useStyles)(Layout))
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(useStyles)(Layout))

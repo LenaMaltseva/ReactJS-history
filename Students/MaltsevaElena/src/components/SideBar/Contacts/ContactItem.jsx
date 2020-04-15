@@ -1,5 +1,4 @@
 import React from 'react'
-import socket from '../../../core/socket.js'
 
 // Routing
 import { push } from 'connected-react-router'
@@ -37,16 +36,11 @@ let ContactItem = props => {
    const classes = useStyles()
    const { contactId, contactName, contactEmail, currentUser, addChat, push } = props
 
-   const newChat = (userId, contactId) => {
-      socket.emit('newChat')
-      addChat(userId, contactId)
-   }
-
    return (
       <Box className={ classes.root }>
          <ListItem divider={ true } 
             onClick={ () => {
-               newChat(currentUser._id, contactId)
+               addChat(currentUser._id, contactId)
                push('/')
             } } 
          >
@@ -63,6 +57,6 @@ let ContactItem = props => {
 }
 
 const mapStateToProps = ({ authReducer }) => ({ currentUser: authReducer.currentUser })
-const mapDespatchToProps = dispatch => bindActionCreators({ addChat, push }, dispatch)
+const mapDispatchToProps = dispatch => bindActionCreators({ addChat, push }, dispatch)
 
-export default connect(mapStateToProps, mapDespatchToProps)(ContactItem)
+export default connect(mapStateToProps, mapDispatchToProps)(ContactItem)
