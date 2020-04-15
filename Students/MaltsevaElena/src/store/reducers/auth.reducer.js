@@ -1,4 +1,5 @@
 import update from 'react-addons-update'
+import socket from '../../core/socket.js'
 
 import { SUCCESS_REGISTER,
          ERROR_REGISTER,
@@ -16,7 +17,6 @@ export default function authReducer (store = initinalStore, action) {
    switch (action.type) {
 
       case SUCCESS_REGISTER: {
-         const { message } = action.payload
          return update(store, {
             successRegistered: { $set: true },
          })
@@ -34,7 +34,10 @@ export default function authReducer (store = initinalStore, action) {
 
       case SUCCESS_LOGIN: {
          const { user, token } = action.payload
+
          localStorage.setItem('token', token)
+         socket.emit('setOnline', user._id)
+
          return update(store, {
             successRegistered: { $set: false },
             currentUser: { $set: { ...user } },
@@ -48,6 +51,8 @@ export default function authReducer (store = initinalStore, action) {
 
       case LOGOUT: {
          localStorage.removeItem('token')
+         socket.emit('setOffline', action.payload.userId)
+
          return update(store, {
             currentUser: { $set: {} },
          })

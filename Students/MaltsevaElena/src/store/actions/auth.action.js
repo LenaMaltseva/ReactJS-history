@@ -50,6 +50,9 @@ export let loginUser = (userName, password) => ({
 
 export let LOGOUT = '@@user/LOGOUT'
 
-export let logoutUser = () => ({
+export let logoutUser = userId => ({
    type: LOGOUT,
+   payload: {
+      userId
+   }
 })

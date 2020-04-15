@@ -10,14 +10,14 @@ chatSchema.post('find', async docs => {
    for(let doc of docs) {
       await doc
       .populate('messageList')
-      .populate('participants', ['_id', 'userName'])
+      .populate('participants', ['_id', 'userName', 'status'])
       .execPopulate()
    }
 })
 
 chatSchema.post('save', async (doc, next) => {
    await doc
-   .populate('participants', ['_id', 'userName'])
+   .populate('participants', ['_id', 'userName', 'status'])
    .execPopulate()
    next()
 })

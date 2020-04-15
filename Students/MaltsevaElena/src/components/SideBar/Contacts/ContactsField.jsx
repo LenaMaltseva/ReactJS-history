@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-// import socket from '../../../core/socket.js'
+import socket from '../../../core/socket.js'
 
 // Store
 import { bindActionCreators } from 'redux'
@@ -24,7 +24,7 @@ class ContactsField extends Component {
 
    componentDidMount () {
       this.props.loadUsers()
-      // socket.on('updContacts', () => this.props.loadUsers())
+      socket.on('updContacts', () => this.props.loadUsers())
    }
 
    render() {
@@ -36,8 +36,7 @@ class ContactsField extends Component {
             ContactsArr.push( 
                <ContactItem
                   contactId={ contactId }
-                  contactName={ contacts[contactId].userName }
-                  contactEmail={ contacts[contactId].email }
+                  contact={ contacts[contactId] }
                   key={ contactId }
                />
             )

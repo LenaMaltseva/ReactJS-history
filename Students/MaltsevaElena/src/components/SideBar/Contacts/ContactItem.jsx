@@ -24,17 +24,13 @@ const useStyles = makeStyles(theme => ({
       '& .Mui-selected': {
          backgroundColor: theme.palette.primary.main,
          color: theme.palette.secondary.main,
-         '& .MuiListItemAvatar-root > .MuiAvatar-root': {
-            backgroundColor: theme.palette.secondary.main,
-            color: theme.palette.common.white
-         }
       },
    },
 }))
 
 let ContactItem = props => {
    const classes = useStyles()
-   const { contactId, contactName, contactEmail, currentUser, addChat, push } = props
+   const { contactId, contact, currentUser, addChat, push } = props
 
    return (
       <Box className={ classes.root }>
@@ -45,10 +41,10 @@ let ContactItem = props => {
             } } 
          >
             <ListItemText 
-               primary={ contactName }
+               primary={ contact.userName }
                primaryTypographyProps={{ noWrap: true }}
-               secondary={ contactEmail }
-               secondaryTypographyProps={{ noWrap: true }}
+               secondary={ contact.status }
+               secondaryTypographyProps={{ noWrap: true, color: (contact.status === 'online' ? 'secondary' : 'textSecondary') }}
             />
             <IconButton aria-label="start conversation" edge="end" children={ <Add /> }/>
          </ListItem>

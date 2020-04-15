@@ -127,7 +127,7 @@ class Navigation extends Component {
               <ListItemText primary="My account" />
             </StyledMenuItem>
 
-            <StyledMenuItem onClick={ () => logoutUser() }>
+            <StyledMenuItem onClick={ () => logoutUser(currentUser._id) }>
               <ListItemIcon children={ <ExitToApp /> }/>
               <ListItemText primary="Log out" />
             </StyledMenuItem>

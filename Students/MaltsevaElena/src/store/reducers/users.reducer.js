@@ -13,10 +13,12 @@ export default function userReducer (store = initinalStore, action) {
       // Load data cases
       case SUCCESS_USERS_LOADING: {
          const contacts = {}
+
          action.payload.forEach(user => {
-            const { _id, userName, email } = user
-            contacts[_id] = { userName, email }
+            const { _id, userName, email, status } = user
+            contacts[_id] = { userName, email, status }
          })
+         
          return update(store, {
             contacts: { $set: contacts },
             isLoading: { $set: false }

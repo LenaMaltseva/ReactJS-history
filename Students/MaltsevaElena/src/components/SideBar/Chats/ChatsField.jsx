@@ -42,19 +42,19 @@ class ChatField extends Component {
 
             let responder = {}
             chatRooms[chatRoomId].participants.forEach(user => (
-               user._id === currentUser._id ? '' : responder = { id: user._id, userName: user.userName }
+               user._id === currentUser._id ? '' : responder = { ...user }
             ))
 
             const lastMessage = {}
             if (messages.length) {
                lastMessage.text = messages[lastMsgIndex].text 
-               lastMessage.sender = messages[lastMsgIndex].sender === responder.id ? responder.userName.split(' ')[0] : 'Me'
+               lastMessage.sender = messages[lastMsgIndex].sender === responder._id ? responder.userName.split(' ')[0] : 'Me'
             }
          
             ChatsArr.push( 
                <ChatItem 
                   chatRoomId={ chatRoomId }
-                  title={ responder.userName }
+                  responder={ responder }
                   lastMessage={ lastMessage }
                   isSelected={ chatId === chatRoomId }
                   key={ chatRoomId }

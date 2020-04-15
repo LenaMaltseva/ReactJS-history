@@ -11,6 +11,7 @@ import { deleteChat } from '../../../store/actions/chats.action.js'
 
 // Styles, UI
 import { Avatar, 
+         Badge,
          IconButton,
          ListItem, ListItemAvatar, ListItemIcon, ListItemText, 
          Menu, MenuItem } from '@material-ui/core'
@@ -27,10 +28,6 @@ const useStyles = makeStyles(theme => ({
       '&.Mui-selected, &.Mui-selected:hover': {
          backgroundColor: theme.palette.primary.main,
          color: theme.palette.secondary.main,
-         '& .MuiListItemAvatar-root > .MuiAvatar-root': {
-            backgroundColor: theme.palette.secondary.main,
-            color: theme.palette.common.white
-         },
       },
    },
    avatar: {
@@ -53,7 +50,7 @@ const StyledMenuItem = withStyles(theme => ({
 
 let ChatItem = props => {
    const classes = useStyles()
-   const { chatRoomId, title, lastMessage, isSelected, deleteChat, push } = props
+   const { chatRoomId, responder, lastMessage, isSelected, deleteChat, push } = props
 
    const [ anchorEl, setAnchorEl ] = React.useState(null)
 
@@ -66,11 +63,17 @@ let ChatItem = props => {
          selected={ isSelected ? true : false } 
          onClick={ () => push(`/chats/${chatRoomId}`) } 
       >
+         
          <ListItemAvatar>
-            <Avatar className={ classes.avatar } children={ title[0].toUpperCase() }/>
+            <Badge color="secondary" overlap="circle" variant="dot"
+               invisible={ responder.status === 'offline' ? true : false }
+               children={ <Avatar className={ classes.avatar } children={ responder.userName[0].toUpperCase() }/> } 
+            />
          </ListItemAvatar>
+            
+         {/* </ListItemAvatar> */}
          <ListItemText 
-            primary={ title } 
+            primary={ responder.userName } 
             primaryTypographyProps={{ noWrap: true }}
             secondary={ 
                <Markup 

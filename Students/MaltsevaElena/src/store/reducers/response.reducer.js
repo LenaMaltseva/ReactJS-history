@@ -49,7 +49,7 @@ export default function responseReducer (store = initialStore, action) {
       case SUCCESS_USERS_LOADING:
       case SUCCESS_MESSAGE_SENDING: {
          return update(store, { 
-            reqResult: { $set: {} },
+            response: { $set: {} },
          })
       }
 
