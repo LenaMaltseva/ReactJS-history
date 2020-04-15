@@ -16,6 +16,12 @@ module.exports = {
 
    async addNewChat (req, res) {
       try {
+         const existChatDirect = await Chat.findOne(req.body)
+         const existChatReverse = await Chat.findOne({ participants: req.body.participants.reverse() })
+         if (existChatDirect || existChatReverse) {
+            return res.status(400).json({ message: 'The chat already exists' })
+         }
+
          let chat = new Chat (req.body)
          chat = await chat.save()
 

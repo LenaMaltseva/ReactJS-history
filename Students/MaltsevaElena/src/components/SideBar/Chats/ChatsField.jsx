@@ -57,6 +57,7 @@ class ChatField extends Component {
                   responder={ responder }
                   lastMessage={ lastMessage }
                   isSelected={ chatId === chatRoomId }
+                  chatType={ chatRooms[chatRoomId].type }
                   key={ chatRoomId }
                />
             )

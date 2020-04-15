@@ -50,7 +50,7 @@ const StyledMenuItem = withStyles(theme => ({
 
 let ChatItem = props => {
    const classes = useStyles()
-   const { chatRoomId, responder, lastMessage, isSelected, deleteChat, push } = props
+   const { chatRoomId, responder, lastMessage, isSelected, chatType, deleteChat, push } = props
 
    const [ anchorEl, setAnchorEl ] = React.useState(null)
 
@@ -85,7 +85,7 @@ let ChatItem = props => {
          />
 
          {/* Chat's actions */}
-         { isSelected && 
+         { (isSelected && chatType === 'custom') && 
             <IconButton aria-label="display more actions" edge="end"
                onClick={ handleClick }
                children={ <MoreIcon /> }
