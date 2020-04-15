@@ -34,6 +34,7 @@ class AuthForm extends Component {
    static propTypes = {
       registerNewUser: PropTypes.func.isRequired, 
       registerErrors: PropTypes.array,
+      successRegistered: PropTypes.bool,
       loginUser: PropTypes.func.isRequired,
       formType: PropTypes.string.isRequired,
       classes: PropTypes.object

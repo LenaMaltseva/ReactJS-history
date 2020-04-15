@@ -57,6 +57,7 @@ class Navigation extends Component {
     currentUser: PropTypes.object.isRequired,
     logoutUser: PropTypes.func,
     location: PropTypes.object,
+    push: PropTypes.func,
     classes: PropTypes.object,
   }
 
