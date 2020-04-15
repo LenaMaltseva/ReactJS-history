@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+// import socket from '../../../core/socket.js'
 
 // Store
 import { bindActionCreators } from 'redux'
@@ -22,9 +23,8 @@ class ContactsField extends Component {
    }
 
    componentDidMount () {
-      if (this.props.response.status !== 401) {
-         this.props.loadUsers()
-      }
+      this.props.loadUsers()
+      // socket.on('updContacts', () => this.props.loadUsers())
    }
 
    render() {
@@ -67,6 +67,6 @@ const mapStateToProps = ({ authReducer, userReducer,responseReducer }) => ({
    contacts: userReducer.contacts,
    response: responseReducer.response,
 })
-const mapDespatchToProps = dispatch => bindActionCreators({ loadUsers }, dispatch)
+const mapDispatchToProps = dispatch => bindActionCreators({ loadUsers }, dispatch)
 
-export default connect(mapStateToProps, mapDespatchToProps)(ContactsField)
+export default connect(mapStateToProps, mapDispatchToProps)(ContactsField)

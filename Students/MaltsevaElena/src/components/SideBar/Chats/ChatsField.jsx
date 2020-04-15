@@ -26,14 +26,8 @@ class ChatField extends Component {
    }
 
    componentDidMount () {
-      if (this.props.response.status !== 401) {
-         this.props.loadChats()
-      }
-      socket.on('updChatList', () => {
-         if (this.props.response.status !== 401) {
-            this.props.loadChats()
-         }
-      })
+      this.props.loadChats()
+      socket.on('updChatList', () => this.props.loadChats())
    }
 
    render() {
@@ -92,6 +86,6 @@ const mapStateToProps = ({ authReducer, chatReducer, responseReducer }) => ({
    chatRooms: chatReducer.chatRooms,
    response: responseReducer.response,
 })
-const mapDespatchToProps = dispatch => bindActionCreators({ loadChats }, dispatch)
+const mapDispatchToProps = dispatch => bindActionCreators({ loadChats }, dispatch)
 
-export default connect(mapStateToProps, mapDespatchToProps)(ChatField)
+export default connect(mapStateToProps, mapDispatchToProps)(ChatField)
