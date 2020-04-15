@@ -33,15 +33,16 @@ class AppLayout extends Component {
       return (
          <div className="container">
             <Grid container spacing={ 0 } alignItems="center" justify="center">
+               <Grid item xs={ 3 }>
+                  <SideBar chatId={ chatId }/>
+               </Grid>
+               <Grid item xs={ 9 }>
+                  <MessagesField chatId={ chatId }/>
+               </Grid>
+
                { !this.state.auth && 
                   <AuthField successRegistered={ true }/>
                }
-               <Grid item xs={ 4 }>
-                  <SideBar chatId={ chatId }/>
-               </Grid>
-               <Grid item xs={ 8 }>
-                  <MessagesField chatId={ chatId }/>
-               </Grid>
             </Grid>
 
             { response.message && 

@@ -15,8 +15,11 @@ import { ForumRounded } from '@material-ui/icons'
 import { withStyles } from '@material-ui/core/styles'
 
 const useStyles = (theme => ({
-   emptyBlock: {
+   messagesBlock: {
       height: '100vh',
+   },
+   emptyBlock: {
+      height: '100%',
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'center',
@@ -45,7 +48,7 @@ class MessagesLayout extends Component {
       }
 
       return (
-         <div>
+         <div className={ classes.messagesBlock }>
             {/* Shown while chat isn't selected */}
             { (!chatId || !chatRooms[chatId]) && 
                <Box className={ classes.emptyBlock }>
