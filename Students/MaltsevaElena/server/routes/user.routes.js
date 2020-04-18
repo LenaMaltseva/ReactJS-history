@@ -3,7 +3,7 @@ const router = express.Router()
 
 const user = require('../controllers/user.controller.js')
 
-// /user
+// /api/user
 router.get('/', user.loadUsers)
 
 module.exports = router

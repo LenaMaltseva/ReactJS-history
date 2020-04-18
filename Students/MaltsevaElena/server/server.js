@@ -9,7 +9,7 @@ const socketIO = require('socket.io')
 const io = require('./socket.js')(socketIO(server, { origins: '*:*' }))
 
 app.use(express.json({ extended: true }))
-app.use(router)
+app.use('/api', router)
 
 const PORT = config.get('port') || 3300
 

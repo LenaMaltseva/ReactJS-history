@@ -3,7 +3,7 @@ const router = express.Router()
 
 const message = require('../controllers/message.controller.js')
 
-// /message
+// /api/message
 router.post('/', message.addMessage)
 
 module.exports = router

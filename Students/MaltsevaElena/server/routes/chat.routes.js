@@ -3,7 +3,7 @@ const router = express.Router()
 
 const chat = require('../controllers/chat.controller.js')
 
-// /chat
+// /api/chat
 router.get('/', chat.loadChats)
 router.post('/', chat.addNewChat)
 router.delete('/', chat.deleteChat)

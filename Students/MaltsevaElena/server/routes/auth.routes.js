@@ -5,7 +5,7 @@ const { check } = require('express-validator')
 
 const auth = require('../controllers/auth.controller.js')
 
-// /auth/register
+// /api/auth/register
 router.post('/register',
    [
       check('email', 'invalid email address').isEmail(),
@@ -14,7 +14,7 @@ router.post('/register',
    auth.register
 )
 
-// /auth/login
+// /api/auth/login
 router.post('/login', auth.login)
 
 module.exports = router
