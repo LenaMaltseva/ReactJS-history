@@ -32,10 +32,10 @@ export default store => next => (action) => {
 
 const answersLib = [
    `We'll call you back soon <br/>(actually, not soon) <br/>(and more exactly, never - nobody reads your messages)`,
-   `I'm very sorry for that <br/>(actually, I'm not - I'm just a bot, I can't feel anything)`,
+   `I'm very sorry about that <br/>(actually, I'm not - I'm just a bot, I can't feel anything)`,
    `Shit happens. Keep calm... and nothing will change :) <br/>Kisses)`,
    `Hi! <br/>There's such lovely weather outside, isn't it? <br/>Oh, sorry about that, I forgot about the quarantine! <br/>Stay home :)))`,
    `I can be your most attentive listener... cause I don't exist, oops :)`,
-   `For resolve your problem try this: <br/>sing 'trololololo-ololo-ololo'... <br/>I hope it works :) or you feel better at least`,
-   `All our employees are busy now, please hold on.`,
+   `For resolving your problem try this: <br/>sing 'trololololo-ololo-ololo'... <br/>I hope it works :) or you feel better at least`,
+   `All our employees are busy now. Please, hold on.`,
 ]
