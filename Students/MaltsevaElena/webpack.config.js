@@ -1,33 +1,55 @@
 const path = require('path')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
+
+const isDev = process.env.NODE_ENV === 'development'
+const isProd = !isDev
 
 module.exports = {
+   context: path.resolve(__dirname, 'src'),
    entry: {
-      main: path.resolve(__dirname, 'src', 'index.jsx')
+      main: './index.jsx'
    },
    output: {
-      path: path.join(__dirname, 'dist'),
-      publicPath: '/',
+      path: path.join(__dirname, 'public'),
       filename: 'js/bundle.js'
    },
-   mode: 'development',
-   // mode: 'production',
-   devtool: 'inline-cheap-module-source-map', 
+   mode: isDev ? 'development' : 'production',
+   devtool: isDev ? 'inline-cheap-module-source-map' : '', 
    devServer: {
       contentBase: './dist',
       port: 3000,
-      hot: true,
-      open: true,
+      hot: isDev,
+      open: false,
       historyApiFallback: true,
       proxy: {
          '/api': {
-            target: 'http://localhost:3300',   
+            target: 'http://localhost:3300',
             secure: false,
             changeOrigin: true,
          }
       },
    },
+   plugins: [
+      new MiniCssExtractPlugin({
+         filename: 'styles/[name].css',
+         chunkFilename: '[id].css',
+         ignoreOrder: false
+      }),
+      new HtmlWebpackPlugin({
+         template: './index.html',
+         minify: {
+            collapseWhitespace: isProd
+         }
+      }),
+      new CopyWebpackPlugin([
+         {
+            from: path.resolve(__dirname, 'src', 'assets', 'favicon.ico'),
+            to: path.resolve(__dirname, 'public', 'images')
+         }
+      ])
+   ],
    module: {
       rules: [
          {
@@ -70,7 +92,7 @@ module.exports = {
                   loader: MiniCssExtractPlugin.loader,
                   options: {
                      publicPath: '../',
-                     hmr: process.env.NODE_ENV === 'development',
+                     hmr: isDev,
                   },
                },
                'css-loader',
@@ -78,19 +100,17 @@ module.exports = {
          },
          {
             test: /\.(ttf|woff|woff2|eot)$/,
-            use: ['file-loader'],
-         }
+            use: [
+               {
+                  loader: 'file-loader',
+                  options: {
+                     name: '[name].[ext]',
+                     outputPath: "fonts",
+                     useRelativePath: true,
+                  }
+               },
+            ],
+         },
       ]
    },
-   plugins: [
-      new MiniCssExtractPlugin({
-         filename: 'css/[name].css',
-         chunkFilename: '[id].css',
-         ignoreOrder: false
-      }),
-      new HtmlWebpackPlugin({
-         filename: 'index.html',
-         template: 'src/index.html',
-      })
-   ]
 }

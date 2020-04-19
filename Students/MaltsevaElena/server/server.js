@@ -2,6 +2,7 @@ const express = require('express')
 const config = require('config')
 const mongoose = require('mongoose')
 const router = require('./routes')
+const path = require('path')
 
 const app = express()
 const server = require('http').createServer(app)
@@ -11,7 +12,14 @@ const io = require('./socket.js')(socketIO(server, { origins: '*:*' }))
 app.use(express.json({ extended: true }))
 app.use('/api', router)
 
-const PORT = config.get('port') || 3300
+if (process.env.NODE_ENV === 'production') {
+   app.use('/', express.static(path.resolve(__dirname, '../public')))
+   app.get('*', (req, res) => {
+      res.sendFile(path.resolve(__dirname, '../public', 'index.html'))
+   })
+}
+
+const PORT = process.env.PORT || config.get('port') || 3300
 
 async function start() {
    try {
@@ -24,7 +32,7 @@ async function start() {
       server.listen(PORT, () => console.log(`Server is listening on port ${PORT}`))
    } catch (err) {
       console.log('Server Error:', err.message)
-      process.exit(1)
+      process.exit(0)
    }
 }
 

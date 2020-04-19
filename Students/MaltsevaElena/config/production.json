@@ -1,0 +1,5 @@
+{
+   "port": 3300,
+   "jwtSecret": "the most secure secret phrase",
+   "mongoUri": "mongodb+srv://LenaDB:1qaz2wsx@cluster0-41sob.azure.mongodb.net/app?retryWrites=true&w=majority"
+}
