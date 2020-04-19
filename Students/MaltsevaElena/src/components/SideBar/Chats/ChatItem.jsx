@@ -15,8 +15,8 @@ import { Avatar,
          IconButton,
          ListItem, ListItemAvatar, ListItemIcon, ListItemText, 
          Menu, MenuItem } from '@material-ui/core'
-import MoreIcon from '@material-ui/icons/MoreHoriz'
-import DeleteIcon from '@material-ui/icons/Delete'
+import { MoreHoriz as MoreIcon, 
+         Delete as DeleteIcon } from '@material-ui/icons'
 import { makeStyles, withStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles(theme => ({

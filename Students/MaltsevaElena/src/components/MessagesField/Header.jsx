@@ -2,9 +2,9 @@ import React from 'react'
 
 // Styles, UI
 import { AppBar, Toolbar, IconButton, Typography } from '@material-ui/core'
+import { Search as SearchIcon, 
+         MoreVert as MoreIcon } from '@material-ui/icons'
 import { makeStyles } from '@material-ui/core/styles'
-import SearchIcon from '@material-ui/icons/Search'
-import MoreIcon from '@material-ui/icons/MoreVert'
 
 const useStyles = makeStyles(theme => ({
    appBar: {
